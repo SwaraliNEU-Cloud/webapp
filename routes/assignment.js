@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const requireAuth = require('../middleware/basicauth'); // Import Basic Authentication middleware
-const Assignment = require('../models/Assignment'); // Import your Assignment model
+const Assignment = require('../Models/Assignment'); // Import your Assignment model
 
 
 

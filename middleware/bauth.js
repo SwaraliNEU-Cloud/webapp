@@ -1,6 +1,6 @@
 // const { User } = require('../models/User.js');
 const bcrypt = require('bcrypt');
-const sequelize = require('../models/db');
+const sequelize = require('../Models/db');
 // const sequelize = new Sequelize('swaradb', 'root', 'Sp@17111997', {
 //     host: 'localhost', // Change to your database host if needed
 //     dialect: 'mysql', // Use the appropriate dialect (e.g., 'postgres' for PostgreSQL)
