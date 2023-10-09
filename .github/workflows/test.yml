@@ -37,13 +37,10 @@ jobs:
 
       run: |
 
-        echo "DB_USER=root" >>
-
-        echo "DB_PASSWORD=root" >> 
+        echo "DB_USER=root" >> .env
+        echo "DB_PASSWORD=root" >> .env
         mysql -u root -p"root" -e "swaradb;"
-
         echo "PORT=8080" >> .env
-
         cat .env
 
  
