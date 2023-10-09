@@ -1,11 +1,4 @@
 name: Node.js Swarali_WorkFlow
-
- 
-
- 
-
- 
-
 on:
 
    pull_request:
@@ -14,11 +7,6 @@ on:
 
       - main
 
- 
-
- 
-
- 
 
 jobs:
 
@@ -27,13 +15,6 @@ jobs:
     name: Swarali_WorkFlow
 
     runs-on: ubuntu-latest
-
- 
-
- 
-
- 
-
     steps:
 
     - name: Checkout code
@@ -49,19 +30,9 @@ jobs:
       with:
 
         node-version: 14
-
- 
-
- 
-
- 
-
     - name: Install dependencies
 
       run: npm install
-
- 
-
     - name: Display .env file
 
       run: |
