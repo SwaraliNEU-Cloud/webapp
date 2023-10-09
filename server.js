@@ -14,6 +14,7 @@ const loadUsersFromCSV = require('./util/dataloader');
 const processUsers = require('./util/dataprocessor');
 const PORT = 8080;
 
+
 loadUsersFromCSV('../opt/user.csv')
     .then(users => {
         return processUsers(users);
