@@ -57,7 +57,7 @@ jobs:
 
         sudo systemctl status mysql
 
-        mysql -u root -p "root" -e " swaradb;"
+        mysql -u root -p "root" -e "CREATE DATABASE swaradb;"
 
  
 
