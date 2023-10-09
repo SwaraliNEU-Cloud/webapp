@@ -37,11 +37,12 @@ jobs:
 
       run: |
 
-        echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+        echo "DB_USER=root" >> .env
+        echo "DB_PASSWORD=root" >> .env
 
-        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+ 
 
-        echo "DB_NAME=swaradb" >> .env
+       mysql -u root -p"root" -e "swaradb;" .env
 
         echo "PORT=8080" >> .env
 
