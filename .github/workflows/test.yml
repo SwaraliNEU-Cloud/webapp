@@ -21,20 +21,21 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Display .env file
-        run: |
-          echo "DB_USER=root" >> .env
-          echo "DB_PASSWORD=Sp@17111997" >> .env
-          echo "PORT=8080" >> .env
-          cat .env
+      name: Display .env file
+      run: |
+        echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+        echo "DB_NAME=swaradb" >> .env
+        echo "PORT=8080" >> .env
+        cat .env
 
-      - name: Configure MySQL
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl
-          sudo systemctl start mysql
-          sudo systemctl status mysql
-          mysql -u root -pSp@17111997 -e "CREATE DATABASE swaradb;"
+    - name: configuremysql
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl
+        sudo systemctl start mysql
+        sudo systemctl status mysql
+        mysql -u ${{ secrets.DB_USER }} -p"${{ secrets.DB_PASSWORD }}" -e "CREATE DATABASE swaradb;"
 
       - name: Run Tests
         run: npm test
