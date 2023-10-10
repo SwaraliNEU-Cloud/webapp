@@ -24,7 +24,7 @@ jobs:
       - name: Display .env file
         run: |
           echo "DB_USER=root" >> .env
-          echo "DB_PASSWORD=root" >> .env
+          echo "DB_PASSWORD=Sp@17111997" >> .env
           echo "PORT=8080" >> .env
           cat .env
 
@@ -34,7 +34,7 @@ jobs:
           sudo apt-get install -y curl
           sudo systemctl start mysql
           sudo systemctl status mysql
-          mysql -u root -proot -e "CREATE DATABASE swaradb;"
+          mysql -u root -pSp@17111997 -e "CREATE DATABASE swaradb;"
 
       - name: Run Tests
         run: npm test
