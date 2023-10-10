@@ -1,76 +1,40 @@
 name: Node.js Swarali_WorkFlow
+
 on:
-
-   pull_request:
-
+  pull_request:
     branches:
-
       - main
 
-
 jobs:
-
   build:
-
     name: Swarali_WorkFlow
-
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Checkout code
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
 
-      uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
 
- 
+      - name: Display .env file
+        run: |
+          echo "DB_USER=root" >> .env
+          echo "DB_PASSWORD=root" >> .env
+          echo "PORT=8080" >> .env
+          cat .env
 
-    - name: Setup Node.js
+      - name: Configure MySQL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl
+          sudo systemctl start mysql
+          sudo systemctl status mysql
+          mysql -u root -proot -e "CREATE DATABASE swaradb;"
 
-      uses: actions/setup-node@v2
-
-      with:
-
-        node-version: 14
-    - name: Install dependencies
-
-      run: npm install
-    - name: Display .env file
-
-      run: |
-
-        echo "DB_USER=root" >> .env
-        echo "DB_PASSWORD=root" >> .env
-        mysql -u root -p"root" -e "swaradb;"
-        echo "PORT=8080" >> .env
-        cat .env
-
- 
-
-    - name: configuremysql
-
-      run: |
-
-        sudo apt-get update
-
-        sudo apt-get install -y curl
-
-        sudo systemctl start mysql
-
-        sudo systemctl status mysql
-
-        mysql -u root -p "root" -e "CREATE DATABASE swaradb;"
-
- 
-
-    - name: Run Tests
-
-      run : npm test
-
- 
-
- 
-
- 
-
- 
-
-# checking CI command on PR - 1.2.3
+      - name: Run Tests
+        run: npm test
