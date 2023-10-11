@@ -2,6 +2,7 @@
 // app.js
 const app = require('./app');
 const express = require('express');
+const { Sequelize } = require('sequelize');
 // const app = express();
 const authenticateToken = require('./middleware/bauth'); // Import your authentication middleware
 const assignmentRoutes = require('./routes/assignment'); // Import your assignment routes
