@@ -2,10 +2,12 @@ const  Assignment1  = require('../Models/Assignment');
 const User = require('../Models/Users');  // Using the model file you've shared
 
 exports.getAllAssignments = async (req, res) => {
+    
     try {
 
         const userId = req.user.id;
         const assignments = await Assignment1.findAll({
+            
             // where: { userId: userId },
             include: [{
                 model: User,
@@ -13,6 +15,7 @@ exports.getAllAssignments = async (req, res) => {
                 attributes: ['id', 'first_name', 'last_name', 'email']
             }]
         });
+        console.log('after findall')
 
         if (!assignments || assignments.length === 0) {
             return res.status(404).json({ message: 'No assignments found' });

@@ -25,7 +25,7 @@ const basicAuth = async (req, res, next) => {
             const isValidPassword = await bcrypt.compare(password, user.password);
             if (!isValidPassword) {
                 console.log('Please give correct Credentials')
-                return res.status(401).json({ message: 'Authentication failed' });
+                return res.status(401).json({ message: 'Authentication failed, Invalid Cred' });
             }
             else{
                 console.log('User Authorized');
