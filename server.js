@@ -38,6 +38,9 @@ const PORT = 8080;
 //         console.error("Error:", err);
 //     });
 
+
+// test
+
 Users.hasMany(Assignment, { foreignKey: 'userId', as: 'assignments' });
 
 Assignment.belongsTo(Users, { foreignKey: 'userId', as: 'user' });
