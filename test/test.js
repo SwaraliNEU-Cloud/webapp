@@ -27,7 +27,7 @@
 const request = require('supertest');
 const app = require('../app'); // Adjust the path as per your project structure
 const { Sequelize } = require('sequelize');
-const sequelize = new Sequelize('swaradb', 'root', 'Sp@17111997',{
+const sequelize = new Sequelize('swaradb', 'root', 'root',{
   dialect: 'mysql',
   host:'localhost'
 });
