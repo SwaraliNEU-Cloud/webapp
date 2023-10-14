@@ -7,11 +7,13 @@ const bodyParser = require('body-parser');
 // // Import required modules
 // const mysql = require('mysql2/promise');
 // const fs = require('fs');
-const { Sequelize } = require('sequelize');
-const sequelize = new Sequelize('swaradb', 'root', 'Sp@17111997',{
-  dialect: 'mysql',
-  host:'localhost'
-});
+// const  sequelize  = require('sequelize');
+const  sequelize = require('./Models/db')
+// const sequelize = new Sequelize('swaradb', 'root', 'Sp@17111997',{
+//   dialect: 'mysql',
+//   host:'localhost'
+// });
+// const Sequelize = require('../Models/db');
 // require('dotenv').config();
 const Assignment = require('./Models/Assignment'); // Import your Assignment model
 const  User  = require('./Models/Users');
@@ -65,6 +67,7 @@ app.use('/assignment', assignmentRouter); // Use the assignments router for /ass
   
  
 app.get('/healthz', async (req, res) => {
+  console.log('in healthz')
 
   try {
 
