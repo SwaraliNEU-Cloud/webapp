@@ -35,10 +35,13 @@ const mysql = require('mysql2');
 
 // const Sequelize = require('sequelize');
 
-// // require('dotenv').config();
+// // require('dotenv').config();   
 const sequelize = new Sequelize('swaradb', 'root', 'root',{
     dialect: 'mysql',
     host:'localhost'
 });
 
 module.exports = sequelize
+
+
+// Sp@17111997
