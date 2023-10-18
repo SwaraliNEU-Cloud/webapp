@@ -1,4 +1,4 @@
-const  Assignment1  = require('../Models/Assignment');
+const  Assignment  = require('../Models/Assignment');
 const User = require('../Models/Users');  // Using the model file you've shared
 // const sequelize = require('../Models/db');
 
@@ -8,12 +8,12 @@ exports.getAssignmentById = async (req, res) => {
         const userId = req.user.id;
         console.log(id)
     
-        const attributes = Assignment1.rawAttributes;
+        const attributes = Assignment.rawAttributes;
         const fields = Object.keys(attributes);
         console.log(fields);
         // console.log('Hello')
 
-        const assg = await Assignment1.findOne({where: { id }, 
+        const assg = await Assignment.findOne({where: { id }, 
         // const assg = await Assignment1.findOne({where: { id: id,userId: userId}, 
         include: [{
                 model: User,
