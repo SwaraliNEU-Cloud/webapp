@@ -33,11 +33,16 @@ app.use('/assignment', assignmentRouter); // Use the assignments router for /ass
   
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
     if (req.query.id) {
-        console.log('by Id')
-        return getAssignmentById(req, res, next);
+      // Handle the case where an ID is provided in the query parameters
+      return getAssignmentById(req, res, next);
+    } else if (req.body) {
+      // Return a response indicating that a request body is not allowed for GET requests
+      res.status(400).json({ error: 'Request body is not allowed for GET requests' });
+    } else {
+      // Handle the case where no ID or body is provided
+      console.log('All Assignment');
+      return getAllAssignments(req, res, next);
     }
-    console.log('All Assignment')
-    return getAllAssignments(req, res, next);
   });
   
   //Below API delete all the assignment
