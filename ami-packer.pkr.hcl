@@ -63,7 +63,7 @@ build {
       "unzip webapp.zip",
       "ls -l",       # Unzip the webapp.zip
       "npm install", # Install dependencies
-      
+
     ]
   }
   provisioner "shell" {
