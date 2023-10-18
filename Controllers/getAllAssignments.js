@@ -1,12 +1,12 @@
-const  Assignment1  = require('../Models/Assignment');
+const  Assignment  = require('../Models/Assignment');
 const User = require('../Models/Users');  // Using the model file you've shared
 
 exports.getAllAssignments = async (req, res) => {
+    
     try {
 
         const userId = req.user.id;
-        const assignments = await Assignment1.findAll({
-            // where: { userId: userId },
+        const assignments = await Assignment.findAll({            
             include: [{
                 model: User,
                 as: 'user',

@@ -1,5 +1,3 @@
-// Somewhere in your controllers directory
-
 const fs = require('fs').promises;
 const path = require('path');
 const csvParser = require('papaparse');
@@ -7,9 +5,6 @@ const { User } = require('./Models/User');
 const sequelize = require('./Models/db');
 const User1 = sequelize.models.User;
 const bcrypt = require('bcrypt');
-
-// console.log("Hello");
-// console.log(User1);
 
 
 const verifyUser = async (req, res) => {
@@ -22,12 +17,7 @@ const verifyUser = async (req, res) => {
         console.log("Intry")
         const existingUser = await User1.findOne({ where: { email } });
         console.log(existingUser)
-
         
-
-        // if (existingUser) {
-        //     return res.status(409).json({ message: 'User already exists' });
-        // }
         if (existingUser) {
             // return res.status(404).json({ message: 'User not found' });
             const isPasswordValid = await bcrypt.compare(password, existingUser.password);
