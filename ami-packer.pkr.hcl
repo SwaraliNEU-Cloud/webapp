@@ -53,7 +53,7 @@ build {
 
 
   provisioner "file" {
-    sourcess      = "webapp.zip"
+    source      = "webapp.zip"
     destination = "/home/admin/webapp.zip"
   }
   provisioner "shell" {
@@ -64,7 +64,7 @@ build {
       "ls -l",       # Unzip the webapp.zip
       "npm install", # Install dependencies
 
-    ]
+    
   }
   provisioner "shell" {
     inline = [
