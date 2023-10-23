@@ -53,7 +53,7 @@ build {
 
 
   provisioner "file" {
-source      = "webapp.zip"
+    sourcess      = "webapp.zip"
     destination = "/home/admin/webapp.zip"
   }
   provisioner "shell" {
