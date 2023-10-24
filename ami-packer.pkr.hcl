@@ -46,9 +46,9 @@ build {
 
     ]
   }
-  provisioner "shell" {
-    script = "./setup-database.sh"
-  }
+  // provisioner "shell" {
+  //   script = "./setup-database.sh"
+  // }
 
 
   provisioner "file" {
@@ -60,8 +60,10 @@ build {
       "sudo apt-get install unzip", # Making sure unzip is installed
       "cd /home/admin",
       "unzip webapp.zip",
-      "ls -l",       # Unzip the webapp.zip
       "npm install", # Install dependencies
+      "sudo mv /home/admin/webapp.service /etc/systemd/system/",
+      "sudo systemctl daemon-reload",
+      "sudo systemctl enable webapp",
 
     ]
   }
