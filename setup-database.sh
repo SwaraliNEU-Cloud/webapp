@@ -22,9 +22,9 @@
 # fi
 
 
-sudo mv /home/admin/webapp.service /etc/systemd/system/
+# sudo mv /home/admin/webapp.service /etc/systemd/system/
 
-sudo systemctl daemon-reload
+# sudo systemctl daemon-reload
 
-sudo systemctl enable webapp
+# sudo systemctl enable webapp
 
