@@ -43,8 +43,7 @@ build {
       "sudo apt update",
       "sudo apt -y upgrade",
       "sudo apt -y install nodejs npm mariadb-server mariadb-client",
-      "sudo systemctl start mariadb",
-      "sudo systemctl enable mariadb"
+      ?
     ]
   }
   provisioner "shell" {
