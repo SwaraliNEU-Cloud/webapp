@@ -59,4 +59,3 @@ Commit your changes: git commit -m 'Add some feature'.
 Push to the branch: git push origin feature/feature-name.
 Create a pull request.
 
-
