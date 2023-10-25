@@ -59,16 +59,15 @@ build {
     inline = [
       "sudo apt-get install unzip", # Making sure unzip is installed
       "cd /home/admin",
-      "unzip webapp.zip",
-      "npm install",
-      "sudo adduser ec2-user", # Install dependencies
-      "echo 'ec2-user:ec2user1' | sudo chpasswd",
+      "unzip webapp.zip", # Unzip the webapp.zip
+      "npm install",      # Install dependencies
+      "sudo adduser ec2-user",
+      # "echo 'ec2-user:ec2User' | sudo chpasswd",
       "sudo usermod -aG ec2-user ec2-user",
-      "sudo chown -R 'ec2-user:'ec2-user /home/admin",
-      "sudo chmod -R 550 /home/admin",
       "sudo chmod +x /home/admin/server.js",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
     ]
+
   }
   provisioner "shell" {
     inline = [

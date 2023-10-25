@@ -1,10 +1,10 @@
 [Unit]
 Description=Node.js Web Application
-After=network.service
-After=cloud-final.service
+Wants=cloud-init.target
 
 [Service]
 EnvironmentFile=/etc/environment
+WorkingDirectory=/home/admin/
 Type=simple
 ExecStart=/usr/bin/node /home/admin/server.js
 Restart=always
@@ -13,4 +13,4 @@ Group=ec2-user
 Environment=PATH=/usr/bin:/usr/local/bin:/usr/local/node/bin
 
 [Install]
-WantedBy=cloud-init.target
+WantedBy=multi-user.target

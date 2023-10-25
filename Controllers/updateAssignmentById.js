@@ -37,11 +37,7 @@ exports.updateAssignmentById = async (req, res) => {
 
         res.status(204).send();
 
-        // Sending the updated assignment in the response
-        // res.status(200).json({
-        //     message: 'Assignment updated successfully',
-        //     data: assignment
-        // });
+     
     } catch (error) {
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
