@@ -1,21 +1,23 @@
 const Sequelize = require("sequelize");
-
 if (process.env.NODE_ENV !== "production") {
-
   require("dotenv").config();
-
 }
 
- 
+console.log("---------")
 
+console.log(process.env.NODE_ENV);
+
+console.log(process.env.DB_NAME);
+
+console.log(process.env.DB_USER);
+
+console.log(process.env.DB_PASSWORD);
+
+console.log(process.env.DB_HOST);
+
+console.log("---------")
 var port = process.env.DB_PORT;
-
- 
-
 // require("dotenv").config(); // Load environment variables from .env
-
- 
-
 const sequelize = new Sequelize({
 
   database: process.env.DB_NAME,
