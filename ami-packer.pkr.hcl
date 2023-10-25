@@ -60,10 +60,15 @@ build {
       "sudo apt-get install unzip", # Making sure unzip is installed
       "cd /home/admin",
       "unzip webapp.zip",
-      "npm install", # Install dependencies
+      "npm install",
+      "sudo adduser ec2-user", # Install dependencies
+      "echo 'ec2-user:ec2user1' | sudo chpasswd",
+      "sudo usermod -aG ec2-user ec2-user",
+      "sudo chmod +x /home/admin/server.js",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable webapp",
+      "sudo systemctl start webapp",
 
     ]
   }
