@@ -1,41 +1,25 @@
-const Sequelize = require("sequelize");
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
+
+const Sequelize = require('sequelize'); 
+// Load dotenv only in development environment
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
 }
 
 console.log("---------")
-
 console.log(process.env.NODE_ENV);
-
 console.log(process.env.DB_NAME);
-
 console.log(process.env.DB_USER);
-
 console.log(process.env.DB_PASSWORD);
-
 console.log(process.env.DB_HOST);
-
 console.log("---------")
-var port = process.env.DB_PORT;
-// require("dotenv").config(); // Load environment variables from .env
-const sequelize = new Sequelize({
 
-  database: process.env.DB_NAME,
 
-  username: process.env.DB_USER,
-
-  password: process.env.DB_PASSWORD,
-
-  host: process.env.DB_HOST,
-
-  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
-
-  dialect: "mysql",
+const sequelize = new Sequelize(process.env.DB_NAME,process.env.DB_USER,process.env.DB_PASSWORD,{
+    dialect: 'mysql',
+    // dialect: 'mariadb',
+    host: process.env.DB_HOST,
+    // port: 3306,sadasd
 
 });
 
- 
-
-module.exports = sequelize;
-
- 
+module.exports = sequelize
