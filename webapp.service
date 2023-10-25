@@ -6,12 +6,11 @@ After=cloud-final.service
 [Service]
 EnvironmentFile=/etc/environment
 WorkingDirectory=/home/admin
-ExecStart=/home/admin/server.js
+ExecStart=/usr/bin/node server.js
 Restart=always
 User=ec2-user
 Group=ec2-user
 Environment=PATH=/usr/bin:/usr/local/bin:/usr/local/node/bin
-
 
 [Install]
 WantedBy=cloud-init.target
