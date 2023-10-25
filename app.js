@@ -11,12 +11,12 @@ const { deleteAssignmentById } = require('./Controllers/deleteAssignmentById');
 const { updateAssignmentById } = require('./Controllers/updateAssignmentById');
 const { checkHealth, healthz } = require('./Controllers/healthcheck');
 const basicAuth = require('./middleware/bauth.js'); // Import the basicauth middleware
-const assignmentRouter = require('./routes/assignment.js'); // Import the assignments router
+// const assignmentRouter = require('./routes/assignment.js'); // Import the assignments router
 
 const app = express();
 const PORT = 8080;
 
-app.use('/assignment', assignmentRouter); // Use the assignments router for /assignments routes
+// app.use('/v1/assignment', assignmentRouter); // Use the assignments router for /assignments routes
 
 // Sync the Sequelize model with the database and start the server
   app.use(bodyParser.json()); 
@@ -31,18 +31,27 @@ app.use('/assignment', assignmentRouter); // Use the assignments router for /ass
   // Below API create the assignment
   app.post('/v1/assignment', basicAuth, createAssignment);
   
+  // app.get('/v1/assignment', basicAuth, (req, res, next) => {
+  //   if (req.query.id) {
+  //     // Handle the case where an ID is provided in the query parameters
+  //     return getAssignmentById(req, res, next);
+  //   } else if (req.body) {
+  //     // Return a response indicating that a request body is not allowed for GET requests
+  //     res.status(400).json({ error: 'No Assignments Found' });
+  //   } else {
+  //     // Handle the case where no ID or body is provided
+  //     console.log('All Assignment');
+  //     return getAllAssignments(req, res, next);
+  //   }
+  // });
+
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
     if (req.query.id) {
-      // Handle the case where an ID is provided in the query parameters
-      return getAssignmentById(req, res, next);
-    } else if (req.body) {
-      // Return a response indicating that a request body is not allowed for GET requests
-      res.status(400).json({ error: 'Request body is not allowed for GET requests' });
-    } else {
-      // Handle the case where no ID or body is provided
-      console.log('All Assignment');
-      return getAllAssignments(req, res, next);
+        console.log('by Id')
+        return getAssignmentById(req, res, next);
     }
+    console.log('All Assignment')
+    return getAllAssignments(req, res, next);
   });
   
   //Below API delete all the assignment
