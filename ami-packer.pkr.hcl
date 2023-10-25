@@ -66,10 +66,6 @@ build {
       "sudo usermod -aG ec2-user ec2-user",
       "sudo chmod +x /home/admin/server.js",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
-      "sudo systemctl daemon-reload",
-      "sudo systemctl enable webapp",
-      "sudo systemctl start webapp",
-
     ]
   }
   provisioner "shell" {
