@@ -50,7 +50,6 @@ build {
   //   script = "./setup-database.sh"
   // }
 
-
   provisioner "file" {
     source      = "webapp.zip"
     destination = "/home/admin/webapp.zip"
@@ -67,7 +66,6 @@ build {
       "sudo chmod +x /home/admin/server.js",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
     ]
-
   }
   provisioner "shell" {
     inline = [
