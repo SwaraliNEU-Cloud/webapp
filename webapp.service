@@ -4,13 +4,11 @@ After=network.service
 After=cloud-final.service
 
 [Service]
-EnvironmentFile=/etc/environment
-WorkingDirectory=/home/admin
-ExecStart=/usr/bin/node server.js
-Restart=always
+Type=simple
+ExecStart=/usr/bin/node /home/admin/server.js
+Restart=on-failure
 User=ec2-user
 Group=ec2-user
-Environment=PATH=/usr/bin:/usr/local/bin:/usr/local/node/bin
 
 [Install]
 WantedBy=cloud-init.target
