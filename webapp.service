@@ -8,7 +8,7 @@ Wants=cloud-init.target
 [Service]
 EnvironmentFile=/home/admin/.env
 WorkingDirectory=/home/admin/webapp
-ExecStart=/home/admin/webapp/server.js
+ExecStart=/home/admin/server.js
 Restart=always
 User=ec2-user
 Group=ec2-user
