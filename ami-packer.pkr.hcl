@@ -50,7 +50,6 @@ build {
   //   script = "./setup-database.sh"
   // }
 
-
   provisioner "file" {
     source      = "webapp.zip"
     destination = "/home/admin/webapp.zip"
