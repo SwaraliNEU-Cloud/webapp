@@ -66,7 +66,6 @@ build {
       "sudo usermod -aG ec2-user ec2-user",
       "sudo chmod +x /home/admin/server.js",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
-      
     ]
   }
   provisioner "shell" {
