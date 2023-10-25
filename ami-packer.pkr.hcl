@@ -64,6 +64,8 @@ build {
       "sudo adduser ec2-user", # Install dependencies
       "echo 'ec2-user:ec2user1' | sudo chpasswd",
       "sudo usermod -aG ec2-user ec2-user",
+      "sudo chown -R 'ec2-user:'ec2-user /home/admin",
+      "sudo chmod -R 550 /home/admin",
       "sudo chmod +x /home/admin/server.js",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
     ]

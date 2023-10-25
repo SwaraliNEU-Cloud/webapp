@@ -5,8 +5,8 @@ After=cloud-final.service
 
 [Service]
 EnvironmentFile=/etc/environment
-WorkingDirectory=/home/admin
-ExecStart=/usr/bin/node server.js
+Type=simple
+ExecStart=/usr/bin/node /home/admin/server.js
 Restart=always
 User=ec2-user
 Group=ec2-user
