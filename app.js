@@ -13,6 +13,7 @@ const { checkHealth, healthz } = require('./Controllers/healthcheck');
 const basicAuth = require('./middleware/bauth.js'); // Import the basicauth middleware
 const logger = require('./Models/logHelper');
 
+
 const app = express();
 const PORT = 8080;
 
@@ -48,6 +49,7 @@ const PORT = 8080;
         return getAssignmentById(req, res, next);
     }
     logger.info('All Assignment')
+
     return getAllAssignments(req, res, next);
   });
   

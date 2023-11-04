@@ -13,6 +13,7 @@ exports.getAllAssignments = async (req, res) => {
             return res.status(404).json({ message: 'No assignments found' });
         }
         console.log(assignment)
+
         res.status(200).json({
             status: 'success',
             message: 'Assignments fetched successfully',
