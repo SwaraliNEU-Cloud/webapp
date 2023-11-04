@@ -7,16 +7,12 @@ exports.getAllAssignments = async (req, res) => {
             return res.status(400).json({ message: 'Request body is not allowed in GET request' });
         }
         const userId = req.user.id;
-        const assignment = await Assignment.findAll({
-            
+        const assignment = await Assignment.findAll({            
         });
-
         if (!assignment || assignment.length === 0) {
             return res.status(404).json({ message: 'No assignments found' });
         }
-
         console.log(assignment)
-
         res.status(200).json({
             status: 'success',
             message: 'Assignments fetched successfully',

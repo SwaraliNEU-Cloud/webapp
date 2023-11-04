@@ -1,4 +1,3 @@
-// const { User } = require('../models/User.js');
 const bcrypt = require('bcrypt');
 const sequelize = require('../Models/db');
 const basicAuth = async (req, res, next) => {
