@@ -11,22 +11,20 @@ const { deleteAssignmentById } = require('./Controllers/deleteAssignmentById');
 const { updateAssignmentById } = require('./Controllers/updateAssignmentById');
 const { checkHealth, healthz } = require('./Controllers/healthcheck');
 const basicAuth = require('./middleware/bauth.js'); // Import the basicauth middleware
-// const assignmentRouter = require('./routes/assignment.js'); // Import the assignments router
+const logger = require('./Models/logHelper');
+
 
 const app = express();
 const PORT = 8080;
-
-// app.use('/v1/assignment', assignmentRouter); // Use the assignments router for /assignments routes
 
 // Sync the Sequelize model with the database and start the server
   app.use(bodyParser.json()); 
 
   app.use((err, req, res, next) => {
-      console.error(err.stack);
+      logger.error(err.stack);
       res.status(500).json({ error: 'Internal Server Error' });
   });
   
-  // app.get('/api/assignment',basicAuth,getAssignmentById)
   
   // Below API create the assignment
   app.post('/v1/assignment', basicAuth, createAssignment);
@@ -47,10 +45,11 @@ const PORT = 8080;
 
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
     if (req.query.id) {
-        console.log('by Id')
+        logger.info('by Id')
         return getAssignmentById(req, res, next);
     }
-    console.log('All Assignment')
+    logger.info('All Assignment')
+
     return getAllAssignments(req, res, next);
   });
   
@@ -67,11 +66,11 @@ const PORT = 8080;
   
  
 app.get('/healthz', async (req, res) => {
-  console.log('in healthz')
+  logger.info('in healthz')
 
   try {
 
-    console.log('healthz')
+    logger.info('healthz')
 
     await sequelize.authenticate(); // Check the database connectivity
 
@@ -91,7 +90,7 @@ app.get('/healthz', async (req, res) => {
 
   } catch (error) {
 
-    console.error('Unable to connect to the database:', error);
+    logger.error('Unable to connect to the database:', error);
 
  
 
