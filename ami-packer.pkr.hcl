@@ -58,8 +58,8 @@ build {
     inline = [
       "sudo apt-get install unzip", # Making sure unzip is installed
       "cd /home/admin",
-      "unzip webapp.zip", # Unzip the webapp.zip
-      "npm install",      # Install dependencies
+      "unzip webapp.zip",    # Unzip the webapp.zip
+      "npm install",         # Install dependencies
       "npm install winston", # for logging
       "sudo adduser ec2-user",
       # "echo 'ec2-user:ec2User' | sudo chpasswd",
@@ -69,7 +69,7 @@ build {
       "wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb",
       "sudo dpkg -i -E amazon-cloudwatch-agent.deb",
       "sudo mv /home/admin/config/config.json /opt/aws/amazon-cloudwatch-agent/bin/"
-      
+
     ]
 
   }
