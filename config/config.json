@@ -37,7 +37,7 @@
             "log_stream_name": "{instance_id}"
           },
           {
-            "file_path": "/var/log/application.log",
+            "file_path": "/home/admin/application.log",
             "log_group_name": "webapplogs",
             "log_stream_name": "{instance_id}"
           }
