@@ -18,7 +18,10 @@ jobs:
           node-version: 14
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install winston
+          
       - name: Display .env file
         run: |
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
