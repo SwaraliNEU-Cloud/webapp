@@ -28,35 +28,35 @@ const PORT = 8080;
       res.status(500).json({ error: 'Internal Server Error' });
   });
 
-  const logAPICalls = (req, res, next) => {
-    // Log the request method and URL
-    logger.info(`API Request: ${req.method} ${req.url}`);
+  // const logAPICalls = (req, res, next) => {
+  //   // Log the request method and URL
+  //   logger.info(`API Request: ${req.method} ${req.url}`);
   
-    // Log request headers
-    logger.info('Request Headers:', req.headers);
+  //   // Log request headers
+  //   logger.info('Request Headers:', req.headers);
 
-    logger.info('Request Body:', req.body);
+  //   logger.info('Request Body:', req.body);
   
-    // Initialize an empty string to capture the response body
-    let responseBody = '';
+  //   // Initialize an empty string to capture the response body
+  //   let responseBody = '';
   
-    // Capture the response body when data is received
-    res.on('data', (chunk) => {
-      responseBody += chunk;
-    });
+  //   // Capture the response body when data is received
+  //   res.on('data', (chunk) => {
+  //     responseBody += chunk;
+  //   });
   
-    res.on('end', () => {
-      const duration = Date.now() - req._startTime; // Calculate API call duration
-      logger.info(`API Response: ${res.statusCode} (${duration}ms)`);
-      logger.info('Response Headers:', res.getHeaders());
-      logger.info('Response Body:', responseBody);
+  //   res.on('end', () => {
+  //     const duration = Date.now() - req._startTime; // Calculate API call duration
+  //     logger.info(`API Response: ${res.statusCode} (${duration}ms)`);
+  //     logger.info('Response Headers:', res.getHeaders());
+  //     logger.info('Response Body:', responseBody);
   
-      next(); // Continue processing the request
-    });
-  };
+  //     next(); // Continue processing the request
+  //   });
+  // };
   
-  // Add the logAPICalls middleware before your route handlers
-  app.use(logAPICalls);
+  // // Add the logAPICalls middleware before your route handlers
+  // app.use(logAPICalls);
   
   
   // Below API create the assignment
