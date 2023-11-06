@@ -43,33 +43,7 @@ const PORT = 8080;
   //   }
   // });
 
-  const logAPICalls = (req, res, next) => {
-    const start = Date.now;
-  
-    logger.info(`API Request: ${req.method} ${req.url}`);
-    logger.info('Request Headers:', req.headers);
     
-    let responseBody = ''; // Initialize an empty string to capture the response body
-    
-    // Capture the response body when data is received
-    res.on('data', (chunk) => {
-      responseBody += chunk;
-    });
-  
-    res.on('end', () => {
-      const duration = Date.now() - start;
-      logger.info(`API Response: ${res.statusCode} (${duration}ms)`);
-      logger.info('Response Headers:', res.getHeaders());
-      logger.info('Response Body:', responseBody);
-  
-      next();
-    });
-  
-    next();
-  };
-  
-  app.use(logAPICalls);
-  
 
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
     if (req.query.id) {
@@ -92,9 +66,7 @@ const PORT = 8080;
   app.patch('/v1/assignment', (req, res) => {
     res.status(405).json({ error: 'Method Not Allowed: Use PUT for full updates or specify fields to update with PATCH.' });
   });
-  
- 
-app.get('/healthz', async (req, res) => {
+ app.get('/healthz', async (req, res) => {
   logger.info('in healthz')
 
   try {
