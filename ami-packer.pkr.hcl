@@ -64,7 +64,7 @@ build {
       "sudo adduser ec2-user",
       # "echo 'ec2-user:ec2User' | sudo chpasswd",
       "sudo usermod -aG ec2-user ec2-user",
-      "sudo chown -R yourusername:ec2-user /home/admin",
+      "sudo chown -R ec2-user:ec2-user /home/admin",
       "sudo chmod -R ec2-user+rwX /home/admin",
       # "sudo chmod +x /home/admin/server.js",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
