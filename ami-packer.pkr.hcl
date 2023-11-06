@@ -64,14 +64,14 @@ build {
       "sudo adduser ec2-user",
       # "echo 'ec2-user:ec2User' | sudo chpasswd",
       "sudo usermod -aG ec2-user ec2-user",
-      "sudo chmod +x /home/admin/server.js",
+      "sudo chown -R yourusername:ec2-user /home/admin",
+      "sudo chmod -R ec2-user+rwX /home/admin",
+      # "sudo chmod +x /home/admin/server.js",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
       "wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb",
       "sudo dpkg -i -E amazon-cloudwatch-agent.deb",
       "sudo mv /home/admin/config/config.json /opt/aws/amazon-cloudwatch-agent/bin/"
-
     ]
-
   }
   provisioner "shell" {
     inline = [
