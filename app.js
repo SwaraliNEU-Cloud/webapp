@@ -92,9 +92,7 @@ const PORT = 8080;
   app.patch('/v1/assignment', (req, res) => {
     res.status(405).json({ error: 'Method Not Allowed: Use PUT for full updates or specify fields to update with PATCH.' });
   });
-  
- 
-app.get('/healthz', async (req, res) => {
+ app.get('/healthz', async (req, res) => {
   logger.info('in healthz')
 
   try {
