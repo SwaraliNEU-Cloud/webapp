@@ -17,11 +17,6 @@ const logger = require('./Models/logHelper');
 const PORT = 8080;
 
 logger.info("Web App is started..")
-app.use((req, res, next) => {
-    // Log the request information
-    logger.info(`API Request: ${req.method} ${req.url}`);
-    next();
-  });
 
 Users.hasMany(Assignment, { foreignKey: 'userId', as: 'assignments' });
 
@@ -36,10 +31,6 @@ sequelize.sync()
             console.log(`Server started on http://localhost:${PORT}`);
         });
     })
-
-    
-
-    
     .catch(err => {
         console.error("Error:", err);
     });
