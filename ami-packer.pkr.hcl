@@ -64,14 +64,15 @@ build {
       "sudo adduser ec2-user",
       # "echo 'ec2-user:ec2User' | sudo chpasswd",
       "sudo usermod -aG ec2-user ec2-user",
-      "sudo chown -R ec2-user:ec2-user /home/admin",
+      "sudo usermod -aG ec2-user admin",
+      // "sudo chown -R ec2-user:ec2-user /home/admin/",
       # "sudo chmod -R ec2-user+rwX /home/admin",
-      # "sudo chmod +x /home/admin/server.js",
+      "sudo chmod +x /home/admin/*",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
       "sudo wget -O /home/admin/amazon-cloudwatch-agent.deb https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb",
       "sudo dpkg -i /home/admin/amazon-cloudwatch-agent.deb",
-      "sudo chown ec2-user:ec2-user /home/admin/amazon-cloudwatch-agent.deb",
-      "sudo chmod 644 /home/admin/amazon-cloudwatch-agent.deb",
+      // "sudo chown ec2-user:ec2-user /home/admin/amazon-cloudwatch-agent.deb",
+      // "sudo chmod 644 /home/admin/amazon-cloudwatch-agent.deb",
       "sudo mv /home/admin/config/config.json /opt/aws/amazon-cloudwatch-agent/bin/"
     ]
   }
