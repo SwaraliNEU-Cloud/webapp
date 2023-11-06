@@ -64,26 +64,16 @@ build {
       "sudo adduser ec2-user",
       # "echo 'ec2-user:ec2User' | sudo chpasswd",
       "sudo usermod -aG ec2-user ec2-user",
+      "sudo usermod -aG ec2-user admin",
       // "sudo chown -R ec2-user:ec2-user /home/admin/",
       # "sudo chmod -R ec2-user+rwX /home/admin",
-      # Give the ec2-user group permissions to the /home/admin directory and its contents
-      "sudo chown -R :ec2-user /home/admin",
-      "sudo chmod -R g+rwX /home/admin",
-
-      # Make the server.js script executable by the ec2-user group
-      "sudo chmod g+x /home/admin/server.js",
-
-      # Move webapp.service file to systemd directory
+      "sudo chmod +x /home/admin/*",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
-
-      # Download and install the CloudWatch Agent
-      "wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb",
-      "sudo dpkg -i -E amazon-cloudwatch-agent.deb",
-      "sudo chown ec2-user:ec2-user /home/admin/amazon-cloudwatch-agent.deb",
-      "sudo chmod 644 /home/admin/amazon-cloudwatch-agent.deb",
-
-      # Move the config.json file to the appropriate directory
-      "sudo mv /home/admin/config/config.json /opt/aws/amazon-cloudwatch-agent/bin/",
+      "sudo wget -O /home/admin/amazon-cloudwatch-agent.deb https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb",
+      "sudo dpkg -i /home/admin/amazon-cloudwatch-agent.deb",
+      // "sudo chown ec2-user:ec2-user /home/admin/amazon-cloudwatch-agent.deb",
+      // "sudo chmod 644 /home/admin/amazon-cloudwatch-agent.deb",
+      "sudo mv /home/admin/config/config.json /opt/aws/amazon-cloudwatch-agent/bin/"
     ]
   }
   provisioner "shell" {
