@@ -34,6 +34,8 @@ const PORT = 8080;
   
     // Log request headers
     logger.info('Request Headers:', req.headers);
+
+    logger.info('Request Body:', req.body);
   
     // Initialize an empty string to capture the response body
     let responseBody = '';
@@ -59,7 +61,7 @@ const PORT = 8080;
   
   // Below API create the assignment
   app.post('/v1/assignment', basicAuth, createAssignment);
-  logger.info('Request Body:', req.body);
+  
   
   // app.get('/v1/assignment', basicAuth, (req, res, next) => {
   //   if (req.query.id) {
