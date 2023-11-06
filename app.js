@@ -76,8 +76,9 @@ const PORT = 8080;
         logger.info('by Id')
         return getAssignmentById(req, res, next);
     }
+    logger.info('Fetching all assignments');
     logger.info('All Assignment')
-
+    // statsd.increment('endpoint.hits.v1.assignment.all');  
     return getAllAssignments(req, res, next);
   });
   
