@@ -45,10 +45,7 @@ exports.getAssignmentById = async (req, res) => {
                 assignmentCreated: assg.assignment_created,
                 assignmentUpdated: assg.assignment_updated,
                 userId: assg.userId,
-<<<<<<< HEAD
                 // userId: assg.userId,
-=======
->>>>>>> 85ab6d6 (statsd updates 1)
                 // useremail: assg.user.email,
                 // userFName: assg.user.first_name,
                 // userLName: assg.user.last_name // This will have the associated user details
