@@ -61,6 +61,7 @@ build {
       "unzip webapp.zip",    # Unzip the webapp.zip
       "npm install",         # Install dependencies
       "npm install winston", # for logging
+      "npm install node-statsd",
       "sudo apt-get install acl",
       "sudo adduser ec2-user",
       "sudo usermod -aG ec2-user ec2-user",
