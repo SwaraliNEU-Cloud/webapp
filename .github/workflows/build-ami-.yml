@@ -21,9 +21,13 @@ jobs:
         run: |
           npm install
           npm install winston
+<<<<<<< HEAD
           npm install -g node-statsd statsd-cloudwatch-backend
           npm install node-statsd
           
+=======
+          npm install node-statsd
+>>>>>>> c0a11b5 (statsd updates)
 
       - name: Display .env file
         run: |
