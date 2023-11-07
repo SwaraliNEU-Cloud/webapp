@@ -16,6 +16,35 @@ const statsd = new StatsD();
 // const AWS = require('aws-sdk');
 const app = express();
 const PORT = 8080;
+const AWS = require("aws-sdk");
+const cloudwatch = new AWS.CloudWatch({ region: "your-aws-region" });
+
+// Define the metric namespace, metric name, and dimensions
+const params = {
+  MetricData: [
+    {
+      MetricName: "APICalls",
+      Dimensions: [
+        {
+          Name: "APIName",
+          Value: "GET",
+        },
+      ],
+      Unit: "Count",
+      Value: 1, // Increase this value for each API call
+    },
+  ],
+  Namespace: "CustomMetrics", // Namespace for your custom metrics
+};
+
+// Publish the custom metric
+cloudwatch.putMetricData(params, (err, data) => {
+  if (err) {
+    console.error("Error publishing metric: ", err);
+  } else {
+    console.log("Custom metric published successfully.");
+  }
+});
 
 // Sync the Sequelize model with the database and start the server
   app.use(bodyParser.json()); 
@@ -60,7 +89,7 @@ const PORT = 8080;
 
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
     if (req.query.id) {
-        logger.info('get assignment by Id')
+        logger.info('get assignment by Id ${req.query.id}')
         return getAssignmentById(req, res, next);
     }
     logger.info('Fetching all assignments');
