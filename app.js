@@ -11,18 +11,15 @@ const { updateAssignmentById } = require('./Controllers/updateAssignmentById');
 const { checkHealth, healthz } = require('./Controllers/healthcheck');
 const basicAuth = require('./middleware/bauth.js'); // Import the basicauth middleware
 const logger = require('./Models/logHelper');
+
 // const StatsD = require('node-statsd');
 // const statsd = new StatsD();
+// const StatsD = require('node-statsd');
+const StatsD = require('./util/Statsclient');
+const statsd = new StatsD();
 // const AWS = require('aws-sdk');
 const app = express();
 const PORT = 8080;
-
-const StatsD = require('node-statsd');
-
-const statsd = new StatsD({
-  host: 'localhost',
-  port: 8125,
-});
 
 const namespace = 'MY_CUSTOM_SPACE';
 const metricName = 'custome_api_metric';
@@ -97,6 +94,7 @@ const metricValue = 1;
   // app.use(logAPICalls);
   
   // Below API create the assignment
+
   app.post('/v1/assignment', basicAuth, createAssignment);
 
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
@@ -106,6 +104,7 @@ const metricValue = 1;
     }
     logger.info('Fetching all assignments');
     statsd.increment('getapi');
+    statsd.increment('endpoint.hits.v1.assignment.all');  
     return getAllAssignments(req, res, next);
   });
   
@@ -114,6 +113,7 @@ const metricValue = 1;
     if (req.query.id) {
         logger.info('Assignment deleted ${req.query.id}');
         statsd.increment('deleteapi');
+        statsd.increment('endpoint.hits.v1.assignment.all');
     } 
   });
    
@@ -122,6 +122,7 @@ const metricValue = 1;
     if (req.query.id) {
       logger.info('Assignment updated ${req.query.id}');
       statsd.increment('putapi');
+      statsd.increment('endpoint.hits.v1.assignment.all');
   }
   });
  
