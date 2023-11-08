@@ -23,7 +23,6 @@ exports.updateAssignmentById = async (req, res) => {
         if (assignment.userId !== userId) {
             return res.status(403).json({ message: 'Forbidden: You do not have permission to update this assignment' });
         }
-
         // Updating the assignment
         if (name) assignment.name = name;
         if (points) assignment.points = points;
