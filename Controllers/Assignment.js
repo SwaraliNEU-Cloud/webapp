@@ -4,6 +4,7 @@ const Sequelize = require('../Models/db');
 const logger = require('../Models/logHelper');
 // Create an assignment
 exports.createAssignment = async (req, res) => {
+    statsd.increment('POST v1/assignment endpoint');
   try {
     const {
         name, points, num_of_attempts, deadline
