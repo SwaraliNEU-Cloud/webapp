@@ -20,7 +20,7 @@ const statsd = new StatsD();
 const app = express();
 const PORT = 8080;
 const AWS = require("aws-sdk");
-const StatsD = require('hot-shots');
+// const StatsD = require('hot-shots');
 const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
 // Define the metric namespace, metric name, and dimensions
 // const params = {
