@@ -1,4 +1,4 @@
-module.exports = {
+{
     port: 8125,
     backends: ["./backends/console", "statsd-cloudwatch-backend"],
     cloudwatch: {
