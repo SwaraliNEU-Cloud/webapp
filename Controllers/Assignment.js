@@ -1,7 +1,7 @@
 // assignmentController.js
 const Assignment = require('../Models/Assignment'); // Import your Assignment model
 const Sequelize = require('../Models/db');
-const logger = require('./Models/logHelper');
+const logger = require('../Models/logHelper');
 
 // Create an assignment
 exports.createAssignment = async (req, res) => {

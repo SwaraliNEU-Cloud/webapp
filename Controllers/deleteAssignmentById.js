@@ -1,5 +1,5 @@
 const Assignment = require('../Models/Assignment');
-const logger = require('./Models/logHelper');
+const logger = require('../Models/logHelper');
 
 exports.deleteAssignmentById = async (req, res) => {
     if (req.query.id) {
