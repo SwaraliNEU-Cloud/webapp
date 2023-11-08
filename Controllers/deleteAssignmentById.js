@@ -1,4 +1,5 @@
 const Assignment = require('../Models/Assignment');
+const logger = require('../Models/logHelper');
 
 exports.deleteAssignmentById = async (req, res) => {
     if (req.query.id) {
@@ -30,7 +31,9 @@ exports.deleteAssignmentById = async (req, res) => {
         // Attempt to delete the assignment with the given ID
         const deletedRowCount = await Assignment.destroy({
             where: { id: id }
+            
         });
+        logger.info('Assignment deleted ${req.query.id}');
 
         // Check if any rows were deleted
         if (deletedRowCount === 0) {
