@@ -14,7 +14,6 @@ exports.getAssignmentById = async (req, res) => {
         // console.log('Hello')
 
         const assg = await Assignment.findOne({where: { id }, 
-        // const assg = await Assignment1.findOne({where: { id: id,userId: userId}, 
         include: [{
                 model: User,
                 as: 'user', // This should match the alias in your associations

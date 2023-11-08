@@ -16,8 +16,20 @@ const logger = require('./Models/logHelper');
 // const AWS = require('aws-sdk');
 const app = express();
 const PORT = 8080;
-const AWS = require("aws-sdk");
-const statsd = require('./util/Statsclient');
+
+const StatsD = require('node-statsd');
+
+const statsd = new StatsD({
+  host: 'localhost',
+  port: 8125,
+});
+
+const namespace = 'MY_CUSTOM_SPACE';
+const metricName = 'custome_api_metric';
+const metricValue = 1;
+
+//const AWS = require("aws-sdk");
+// const statsd = require('./util/Statsclient');
 // const statsd = new StatsD(statsdConfig);
 // const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
 
@@ -93,8 +105,7 @@ const statsd = require('./util/Statsclient');
         return getAssignmentById(req, res, next);
     }
     logger.info('Fetching all assignments');
-    statsd.increment('endpoint.hits.v1.assignment.all');
-    statsd.increment('event_name');  
+    statsd.increment('getapi');
     return getAllAssignments(req, res, next);
   });
   
@@ -102,7 +113,7 @@ const statsd = require('./util/Statsclient');
   app.delete('/v1/assignment', basicAuth, deleteAssignmentById, (req, res, next) => {
     if (req.query.id) {
         logger.info('Assignment deleted ${req.query.id}');
-        statsd.increment('endpoint.hits.v1.assignment.all');
+        statsd.increment('deleteapi');
     } 
   });
    
@@ -110,7 +121,7 @@ const statsd = require('./util/Statsclient');
   app.put('/v1/assignment', basicAuth, updateAssignmentById, (req, res, next) => {
     if (req.query.id) {
       logger.info('Assignment updated ${req.query.id}');
-      statsd.increment('endpoint.hits.v1.assignment.all');
+      statsd.increment('putapi');
   }
   });
  
