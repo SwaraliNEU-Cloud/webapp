@@ -84,7 +84,7 @@ build {
       # Move the cloudwatch-config.json from the webapp directory to the CloudWatch agent configuration directory
       # "sudo cp /home/admin/cloudwatch-config.json /opt/aws/amazon-cloudwatch-agent/bin/",
       # "sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \ -a fetch-config \ -m ec2 \ -c file:/home/admin/cloudwatch-config.json \ -s",
-      "sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/home/admin/cloudwatch-config.json -s",
+      "sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/home/admin/config.json -s",
       # "sudo chown root:root /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json",
       # "sudo chmod 640 /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json",
 
