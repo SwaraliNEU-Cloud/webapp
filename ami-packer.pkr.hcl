@@ -60,8 +60,6 @@ build {
       "cd /home/admin",
       "unzip webapp.zip", # Unzip the webapp.zip
       "npm install",      # Install dependencies
-      // "npm install -g node-statsd statsd-cloudwatch-backend",
-      // "node-statsd /home/admin/util/statsd-config.js",
       "npm install winston", # for logging
       "npm install node-statsd",
       "sudo apt-get install acl",
@@ -88,3 +86,5 @@ build {
 // "sudo chown -R ec2-user:ec2-user /home/admin/",
 // "sudo chmod -R ec2-user+rwX /home/admin",
 //"echo 'ec2-user:ec2User' | sudo chpasswd",
+// "npm install -g node-statsd statsd-cloudwatch-backend",
+      // "node-statsd /home/admin/util/statsd-config.js",
