@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 // File: utils/statsdClient.js
 const StatsD = require('hot-shots');
 const statsd = new StatsD({
