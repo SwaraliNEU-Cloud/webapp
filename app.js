@@ -11,6 +11,7 @@ const { updateAssignmentById } = require('./Controllers/updateAssignmentById');
 const { checkHealth, healthz } = require('./Controllers/healthcheck');
 const basicAuth = require('./middleware/bauth.js'); // Import the basicauth middleware
 const logger = require('./Models/logHelper');
+
 // const StatsD = require('node-statsd');
 // const statsd = new StatsD();
 // const StatsD = require('node-statsd');
@@ -39,14 +40,6 @@ const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
 //   Namespace: "CustomMetrics", // Namespace for your custom metrics
 // };
 
-// // Publish the custom metric
-// cloudwatch.putMetricData(params, (err, data) => {
-//   if (err) {
-//     console.error("Error publishing metric: ", err);
-//   } else {
-//     console.log("Custom metric published successfully.");
-//   }
-// });
 
 const namespace = 'MY_CUSTOM_SPACE';
 const metricName = 'custome_api_metric';
@@ -121,6 +114,7 @@ const metricValue = 1;
   // app.use(logAPICalls);
   
   // Below API create the assignment
+
   app.post('/v1/assignment', basicAuth, createAssignment);
 
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
