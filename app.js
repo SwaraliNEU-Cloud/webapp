@@ -12,11 +12,14 @@ const { checkHealth, healthz } = require('./Controllers/healthcheck');
 const basicAuth = require('./middleware/bauth.js'); // Import the basicauth middleware
 const logger = require('./Models/logHelper');
 const StatsD = require('node-statsd');
-const statsd = new StatsD();
+// const statsd = new StatsD();
 // const AWS = require('aws-sdk');
 const app = express();
 const PORT = 8080;
 const AWS = require("aws-sdk");
+const statsd = require('./util/statsdClient');
+const StatsD = require('hot-shots');
+const statsd = new StatsD(statsdConfig);
 const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
 
 // Define the metric namespace, metric name, and dimensions
@@ -91,7 +94,8 @@ cloudwatch.putMetricData(params, (err, data) => {
         return getAssignmentById(req, res, next);
     }
     logger.info('Fetching all assignments');
-    statsd.increment('endpoint.hits.v1.assignment.all');  
+    statsd.increment('endpoint.hits.v1.assignment.all');
+    statsd.increment('event_name');  
     return getAllAssignments(req, res, next);
   });
   
