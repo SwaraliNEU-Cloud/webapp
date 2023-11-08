@@ -46,7 +46,7 @@ jobs:
           npm install
           npm install winston
           npm install node-statsd
-          npm install hot-shot
+          npm install hot-shots
 
  
 
