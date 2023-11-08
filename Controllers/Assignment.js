@@ -2,7 +2,6 @@
 const Assignment = require('../Models/Assignment'); // Import your Assignment model
 const Sequelize = require('../Models/db');
 const logger = require('../Models/logHelper');
-
 // Create an assignment
 exports.createAssignment = async (req, res) => {
   try {
@@ -22,7 +21,7 @@ exports.createAssignment = async (req, res) => {
         points,
         num_of_attempts,
         deadline,
-        // userId
+        userId
     });
     logger.info('Assignment created successfully');
     res.status(201).json({ message: 'Assignment created successfully', data: newAssignment });
