@@ -1,5 +1,4 @@
 const StatsD = require('node-statsd');
-
 const statsdConfig = {
     graphitePort: 2003,
     graphiteHost: "localhost",
