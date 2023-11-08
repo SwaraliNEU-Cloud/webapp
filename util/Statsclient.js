@@ -1,3 +1,4 @@
+
 // File: utils/statsdClient.js
 const StatsD = require('hot-shots');
 const statsd = new StatsD({
@@ -9,7 +10,7 @@ const statsd = new StatsD({
     console.error('StatsD error:', error);
   }
 });
- 
+
 module.exports = statsd;
 
  
