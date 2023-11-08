@@ -21,7 +21,7 @@ exports.createAssignment = async (req, res) => {
         points,
         num_of_attempts,
         deadline,
-        // userId
+        userId
     });
     logger.info('Assignment created successfully');
     res.status(201).json({ message: 'Assignment created successfully', data: newAssignment });
