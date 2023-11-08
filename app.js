@@ -18,7 +18,6 @@ const app = express();
 const PORT = 8080;
 const AWS = require("aws-sdk");
 const statsd = require('./util/Statsclient');
-const StatsD = require('hot-shots');
 // const statsd = new StatsD(statsdConfig);
 // const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
 
