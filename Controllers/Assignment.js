@@ -17,7 +17,6 @@ exports.createAssignment = async (req, res) => {
         if (!req.user || !req.user.id) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
-    
     const newAssignment = await Sequelize.models.Assignment.create({
         name,
         points,
