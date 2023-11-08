@@ -74,7 +74,7 @@ build {
       "sudo systemctl enable webapp.service"
     ]
   }
- 
+
   provisioner "shell" {
     inline = [
       "echo 'Installing CloudWatch Agent'",
@@ -87,11 +87,11 @@ build {
       "sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/home/admin/cloudwatch-config.json -s",
       # "sudo chown root:root /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json",
       # "sudo chmod 640 /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json",
- 
+
       "sudo systemctl enable amazon-cloudwatch-agent",
       # Start CloudWatch agent
       "sudo systemctl start amazon-cloudwatch-agent",
- 
+
     ]
   }
   provisioner "shell" {
