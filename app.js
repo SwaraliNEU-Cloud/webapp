@@ -126,7 +126,9 @@ const metricValue = 1;
 
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
     if (req.query.id) {
-        logger.info('get assignment by Id ${req.query.id}')
+        console.log('by Id')
+        logger.info(`Fetching assignment by ID: ${req.query.id}`);
+        statsd.increment('endpoint.hits.v1.assignment.byId');
         return getAssignmentById(req, res, next);
     }
     logger.info('Fetching all assignments');
@@ -157,23 +159,29 @@ const metricValue = 1;
     res.status(405).json({ error: 'Method Not Allowed: Use PUT for full updates or specify fields to update with PATCH.' });
     logger.info('PATCH method is not allowed');
   });
- app.get('/healthz', async (req, res) => {
-  logger.info('in healthz')
-  try {
-    logger.info('healthz')
-    await sequelize.authenticate(); // Check the database connectivity
-    res.status(200).set({
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache',
-      'X-Content-Type-Options': 'nosniff'
-    }).json({ status: 'ok' });
-  } catch (error) {
-    logger.error('Unable to connect to the database:', error);
-    res.status(503).set({
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache',
-      'X-Content-Type-Options': 'nosniff'
-    }).json({ status: 'error', message: 'Unable to connect to the database' });
-  }
-});
+  app.get('/healthz', async (req, res) => {
+    try {
+      //console.log('healthz')
+      logger.info('healthz check initiated');
+      statsd.gauge('database.connection_success', 1);
+      await sequelize.authenticate(); // Check the database connectivity
+      logger.info('Database connection has been established successfully.');
+   
+      res.status(200).set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'X-Content-Type-Options': 'nosniff'
+      }).json({ status: 'ok' });
+   
+    } catch (error) {
+      //console.error('Unable to connect to the database:', error);
+      logger.error(`Unable to connect to the database: ${error}`);
+      statsd.gauge('database.connection_success', 1);
+      res.status(503).set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'X-Content-Type-Options': 'nosniff'
+      }).json({ status: 'error', message: 'Unable to connect to the database' });
+    }
+  });
   module.exports = app;
