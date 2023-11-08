@@ -2,6 +2,7 @@ const Assignment = require('../Models/Assignment');
 const logger = require('../Models/logHelper');
 
 exports.updateAssignmentById = async (req, res) => {
+    statsd.increment('Update v1/assignment endpoint');
     try {
         // Extracting the ID from the request parameters
         const { id } = req.query;

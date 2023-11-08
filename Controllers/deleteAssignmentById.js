@@ -2,9 +2,9 @@ const Assignment = require('../Models/Assignment');
 const logger = require('../Models/logHelper');
 
 exports.deleteAssignmentById = async (req, res) => {
+    statsd.increment('DELETE v1/assignment endpoint');
     if (req.query.id) {
-        logger.info('Assignment deleted ${req.query.id}');
-        statsd.increment('endpoint.hits.v1.assignment.all');
+        
     }    
     try {
         // Retrieve ID from the request parameters

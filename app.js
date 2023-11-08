@@ -100,22 +100,11 @@ const metricValue = 1;
   });
   
   //Below API delete all the assignment
-  app.delete('/v1/assignment', basicAuth, deleteAssignmentById, (req, res, next) => {
-    if (req.query.id) {
-        logger.info('Assignment deleted ${req.query.id}');
-        statsd.increment('deleteapi');
-        statsd.increment('endpoint.hits.v1.assignment.all');
-    } 
-  });
+  app.delete('/v1/assignment', basicAuth, deleteAssignmentById);
    
   //Below API update the assignment
-  app.put('/v1/assignment', basicAuth, updateAssignmentById, (req, res, next) => {
-    if (req.query.id) {
-      logger.info('Assignment updated ${req.query.id}');
-      statsd.increment('putapi');
-      statsd.increment('endpoint.hits.v1.assignment.all');
-  }
-  });
+  app.put('/v1/assignment', basicAuth, updateAssignmentById);
+  
   app.patch('/v1/assignment', (req, res) => {
     res.status(405).json({ error: 'Method Not Allowed: Use PUT for full updates or specify fields to update with PATCH.' });
     logger.info('PATCH method is not allowed');
