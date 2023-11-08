@@ -56,12 +56,12 @@ build {
   }
   provisioner "shell" {
     inline = [
-      "npm install -g node-statsd statsd-cloudwatch-backend",
       "sudo apt-get install unzip", # Making sure unzip is installed
       "cd /home/admin",
+      "unzip webapp.zip", # Unzip the webapp.zip
+      "npm install",      # Install dependencies
+      "npm install -g node-statsd statsd-cloudwatch-backend",
       "node-statsd /home/admin/util/statsd-config.js",
-      "unzip webapp.zip",    # Unzip the webapp.zip
-      "npm install",         # Install dependencies
       "npm install winston", # for logging
       "npm install node-statsd",
       "sudo apt-get install acl",
