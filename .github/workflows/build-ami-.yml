@@ -21,6 +21,11 @@ jobs:
         run: |
           npm install
           npm install winston
+<<<<<<< HEAD
+=======
+          
+>>>>>>> 4ad0ab9 (statsd updates 21)
+
 
       - name: Display .env file
         run: |
