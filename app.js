@@ -153,7 +153,6 @@ const metricValue = 1;
       statsd.increment('endpoint.hits.v1.assignment.all');
   }
   });
- 
   app.patch('/v1/assignment', (req, res) => {
     res.status(405).json({ error: 'Method Not Allowed: Use PUT for full updates or specify fields to update with PATCH.' });
     logger.info('PATCH method is not allowed');
