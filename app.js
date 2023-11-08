@@ -11,7 +11,7 @@ const { updateAssignmentById } = require('./Controllers/updateAssignmentById');
 const { checkHealth, healthz } = require('./Controllers/healthcheck');
 const basicAuth = require('./middleware/bauth.js'); // Import the basicauth middleware
 const logger = require('./Models/logHelper');
-const StatsD = require('node-statsd');
+// const StatsD = require('node-statsd');
 // const statsd = new StatsD();
 // const AWS = require('aws-sdk');
 const app = express();
@@ -23,31 +23,31 @@ const statsd = new StatsD(statsdConfig);
 const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
 
 // Define the metric namespace, metric name, and dimensions
-const params = {
-  MetricData: [
-    {
-      MetricName: "APICalls",
-      Dimensions: [
-        {
-          Name: "APIName",
-          Value: "GET",
-        },
-      ],
-      Unit: "Count",
-      Value: 1, // Increase this value for each API call
-    },
-  ],
-  Namespace: "CustomMetrics", // Namespace for your custom metrics
-};
+// const params = {
+//   MetricData: [
+//     {
+//       MetricName: "APICalls",
+//       Dimensions: [
+//         {
+//           Name: "APIName",
+//           Value: "GET",
+//         },
+//       ],
+//       Unit: "Count",
+//       Value: 1, // Increase this value for each API call
+//     },
+//   ],
+//   Namespace: "CustomMetrics", // Namespace for your custom metrics
+// };
 
-// Publish the custom metric
-cloudwatch.putMetricData(params, (err, data) => {
-  if (err) {
-    console.error("Error publishing metric: ", err);
-  } else {
-    console.log("Custom metric published successfully.");
-  }
-});
+// // Publish the custom metric
+// cloudwatch.putMetricData(params, (err, data) => {
+//   if (err) {
+//     console.error("Error publishing metric: ", err);
+//   } else {
+//     console.log("Custom metric published successfully.");
+//   }
+// });
 
 // Sync the Sequelize model with the database and start the server
   app.use(bodyParser.json()); 
