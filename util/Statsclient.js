@@ -10,7 +10,6 @@ const statsd = new StatsD({
     console.error('StatsD error:', error);
   }
 });
-
 module.exports = statsd;
 
  
