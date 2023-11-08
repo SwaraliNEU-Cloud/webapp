@@ -39,7 +39,6 @@ exports.deleteAssignmentById = async (req, res) => {
         if (deletedRowCount === 0) {
             return res.status(404).json({ message: 'Assignment not found' });
         }
-
         // res.status(200).json({ message: 'Assignment deleted successfully' });
         res.status(204).send();
     } catch (error) {
