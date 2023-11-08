@@ -38,6 +38,7 @@ const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
 //   ],
 //   Namespace: "CustomMetrics", // Namespace for your custom metrics
 // };
+
 const namespace = 'MY_CUSTOM_SPACE';
 const metricName = 'custome_api_metric';
 const metricValue = 1;

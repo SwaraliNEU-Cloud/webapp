@@ -108,3 +108,4 @@ build {
 // "sudo chmod -R ec2-user+rwX /home/admin",
 //"echo 'ec2-user:ec2User' | sudo chpasswd",
 // "npm install -g node-statsd statsd-cloudwatch-backend",
+
