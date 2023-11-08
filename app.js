@@ -24,31 +24,31 @@ const StatsD = require('hot-shots');
 const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
 
 // Define the metric namespace, metric name, and dimensions
-const params = {
-  MetricData: [
-    {
-      MetricName: "APICalls",
-      Dimensions: [
-        {
-          Name: "APIName",
-          Value: "GET",
-        },
-      ],
-      Unit: "Count",
-      Value: 1, // Increase this value for each API call
-    },
-  ],
-  Namespace: "CustomMetrics", // Namespace for your custom metrics
-};
+// const params = {
+//   MetricData: [
+//     {
+//       MetricName: "APICalls",
+//       Dimensions: [
+//         {
+//           Name: "APIName",
+//           Value: "GET",
+//         },
+//       ],
+//       Unit: "Count",
+//       Value: 1, // Increase this value for each API call
+//     },
+//   ],
+//   Namespace: "CustomMetrics", // Namespace for your custom metrics
+// };
 
-// Publish the custom metric
-cloudwatch.putMetricData(params, (err, data) => {
-  if (err) {
-    console.error("Error publishing metric: ", err);
-  } else {
-    console.log("Custom metric published successfully.");
-  }
-});
+// // Publish the custom metric
+// cloudwatch.putMetricData(params, (err, data) => {
+//   if (err) {
+//     console.error("Error publishing metric: ", err);
+//   } else {
+//     console.log("Custom metric published successfully.");
+//   }
+// });
 
 const namespace = 'MY_CUSTOM_SPACE';
 const metricName = 'custome_api_metric';
