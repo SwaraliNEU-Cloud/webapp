@@ -113,7 +113,10 @@ const metricValue = 1;
   // app.use(logAPICalls);
   
   // Below API create the assignment
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5b201a0 (statsd updates 3)
   app.post('/v1/assignment', basicAuth, createAssignment);
 
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
