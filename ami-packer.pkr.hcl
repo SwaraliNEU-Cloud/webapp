@@ -58,8 +58,8 @@ build {
     inline = [
       "sudo apt-get install unzip", # Making sure unzip is installed
       "cd /home/admin",
-      "unzip webapp.zip", # Unzip the webapp.zip
-      "npm install",      # Install dependencies
+      "unzip webapp.zip",    # Unzip the webapp.zip
+      "npm install",         # Install dependencies
       "npm install winston", # for logging
       "npm install node-statsd",
       "sudo apt-get install acl",
@@ -87,4 +87,4 @@ build {
 // "sudo chmod -R ec2-user+rwX /home/admin",
 //"echo 'ec2-user:ec2User' | sudo chpasswd",
 // "npm install -g node-statsd statsd-cloudwatch-backend",
-      // "node-statsd /home/admin/util/statsd-config.js",
+// "node-statsd /home/admin/util/statsd-config.js",
