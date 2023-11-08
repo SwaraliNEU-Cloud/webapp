@@ -83,9 +83,7 @@ cloudwatch.putMetricData(params, (err, data) => {
   // app.use(logAPICalls);
   
   // Below API create the assignment
-  app.post('/v1/assignment', basicAuth, createAssignment, (req, res, next) => {
-    logger.info('Request Body:', req.body);
-  });
+  app.post('/v1/assignment', basicAuth, createAssignment);
 
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
     if (req.query.id) {

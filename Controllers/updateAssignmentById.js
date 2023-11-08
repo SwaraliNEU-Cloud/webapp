@@ -1,4 +1,5 @@
 const Assignment = require('../Models/Assignment');
+const logger = require('./Models/logHelper');
 
 exports.updateAssignmentById = async (req, res) => {
     try {
@@ -34,7 +35,7 @@ exports.updateAssignmentById = async (req, res) => {
         if (deadline) assignment.deadline = deadline;
 
         await assignment.save();
-
+        logger.info('Assignment updated successfully');
         res.status(204).send();
 
      
