@@ -21,7 +21,7 @@ const statsd = new StatsD();
 const app = express();
 const PORT = 8080;
 const AWS = require("aws-sdk");
-const cloudwatch = new AWS.CloudWatch({ region: "your-aws-region" });
+const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
 
 // Define the metric namespace, metric name, and dimensions
 const params = {
