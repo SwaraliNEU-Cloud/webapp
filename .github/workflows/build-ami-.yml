@@ -25,6 +25,7 @@ jobs:
           npm install hot-shots
 
 
+
       - name: Display .env file
         run: |
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
