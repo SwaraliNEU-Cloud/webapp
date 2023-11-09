@@ -2,7 +2,7 @@ const Assignment = require('../Models/Assignment');
 const logger = require('../Models/logHelper');
 
 exports.deleteAssignmentById = async (req, res) => {
-    statsd.increment('endpoint.hits.v1.assignment.delete'); 
+    // statsd.increment('endpoint.hits.v1.assignment.delete'); 
     if (req.query.id) {
         
     }    
@@ -40,6 +40,7 @@ exports.deleteAssignmentById = async (req, res) => {
             return res.status(404).json({ message: 'Assignment not found' });
         }
         logger.info('Assignment deleted ${req.query.id}');
+        statsd.increment('endpoint.hits.v1.assignment.create');
         // res.status(200).json({ message: 'Assignment deleted successfully' });
         res.status(204).send();
     } catch (error) {

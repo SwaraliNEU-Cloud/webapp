@@ -2,7 +2,7 @@ const Assignment = require('../Models/Assignment');
 const logger = require('../Models/logHelper');
 
 exports.updateAssignmentById = async (req, res) => {
-    statsd.increment('endpoint.hits.v1.assignment.update'); 
+    // statsd.increment('endpoint.hits.v1.assignment.update'); 
     try {
         // Extracting the ID from the request parameters
         const { id } = req.query;
@@ -34,6 +34,7 @@ exports.updateAssignmentById = async (req, res) => {
 
         await assignment.save();
         logger.info('Assignment updated successfully');
+        statsd.increment('endpoint.hits.v1.assignment.create');
         res.status(204).send();   
     } catch (error) {
         logger.info('Server error');
