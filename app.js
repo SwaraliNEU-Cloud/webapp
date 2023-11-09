@@ -38,7 +38,6 @@ const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
 //   ],
 //   Namespace: "CustomMetrics", // Namespace for your custom metrics
 // };
-
 const namespace = 'MY_CUSTOM_SPACE';
 const metricName = 'custome_api_metric';
 const metricValue = 1;
@@ -100,11 +99,22 @@ const metricValue = 1;
   });
   
   //Below API delete all the assignment
-  app.delete('/v1/assignment', basicAuth, deleteAssignmentById);
+  app.delete('/v1/assignment', basicAuth, deleteAssignmentById, (req, res, next) => {
+    if (req.query.id) {
+        logger.info('Assignment deleted ${req.query.id}');
+        statsd.increment('deleteapi');
+        statsd.increment('endpoint.hits.v1.assignment.all');
+    } 
+  });
    
   //Below API update the assignment
-  app.put('/v1/assignment', basicAuth, updateAssignmentById);
-  
+  app.put('/v1/assignment', basicAuth, updateAssignmentById, (req, res, next) => {
+    if (req.query.id) {
+      logger.info('Assignment updated ${req.query.id}');
+      statsd.increment('putapi');
+      statsd.increment('endpoint.hits.v1.assignment.all');
+  }
+  });
   app.patch('/v1/assignment', (req, res) => {
     res.status(405).json({ error: 'Method Not Allowed: Use PUT for full updates or specify fields to update with PATCH.' });
     logger.info('PATCH method is not allowed');

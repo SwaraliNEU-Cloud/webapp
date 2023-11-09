@@ -19,9 +19,11 @@ exports.updateAssignmentById = async (req, res) => {
         // Finding the assignment to update
         const assignment = await Assignment.findOne({ where: { id } });
         if (!assignment) {
+            logger.info('Assignment not found');
             return res.status(404).json({ message: 'Assignment not found' });
         }
         if (assignment.userId !== userId) {
+            logger.info('Permission denied');
             return res.status(403).json({ message: 'Forbidden: You do not have permission to update this assignment' });
         }
         // Updating the assignment
@@ -34,6 +36,7 @@ exports.updateAssignmentById = async (req, res) => {
         logger.info('Assignment updated successfully');
         res.status(204).send();   
     } catch (error) {
+        logger.info('Server error');
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
