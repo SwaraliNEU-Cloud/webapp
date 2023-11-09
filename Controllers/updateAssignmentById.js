@@ -1,5 +1,6 @@
 const Assignment = require('../Models/Assignment');
 const logger = require('../Models/logHelper');
+const statsd = require('../util/Statsclient');
 
 exports.updateAssignmentById = async (req, res) => {
     // statsd.increment('endpoint.hits.v1.assignment.update'); 

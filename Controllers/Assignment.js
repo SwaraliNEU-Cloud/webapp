@@ -2,6 +2,7 @@
 const Assignment = require('../Models/Assignment'); // Import your Assignment model
 const Sequelize = require('../Models/db');
 const logger = require('../Models/logHelper');
+const statsd = require('../util/Statsclient');
 // Create an assignment
 exports.createAssignment = async (req, res) => {
     // statsd.increment('endpoint.hits.v1.assignment.create');  
