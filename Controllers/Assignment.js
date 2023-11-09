@@ -13,10 +13,12 @@ exports.createAssignment = async (req, res) => {
     
     if (!name || !points || !num_of_attempts || !deadline) {
         logger.info('Bad Request');
+        statsd.increment('endpoint.hits.v1.assignment.create');
         return res.status(400).json({ message: 'Invalid input: All fields are required' });
     }
         if (!req.user || !req.user.id) {
             logger.info('Unathorized');
+            statsd.increment('endpoint.hits.v1.assignment.create');
         return res.status(401).json({ message: 'Unauthorized' });
     }
     const newAssignment = await Sequelize.models.Assignment.create({
@@ -27,6 +29,7 @@ exports.createAssignment = async (req, res) => {
         userId
     });
     logger.info('Assignment created successfully');
+    statsd.increment('endpoint.hits.v1.assignment.create');
     res.status(201).json({ message: 'Assignment created successfully', data: newAssignment });
 } catch (error) {
     logger.info('Server error');
