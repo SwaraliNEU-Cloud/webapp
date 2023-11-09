@@ -123,7 +123,6 @@ const metricValue = 1;
     try {
       //console.log('healthz')
       logger.info('healthz check initiated');
-      statsd.gauge('database.connection_success', 1);
       await sequelize.authenticate(); // Check the database connectivity
       logger.info('Database connection has been established successfully.');
    
@@ -136,7 +135,6 @@ const metricValue = 1;
     } catch (error) {
       //console.error('Unable to connect to the database:', error);
       logger.error(`Unable to connect to the database: ${error}`);
-      statsd.gauge('database.connection_success', 1);
       res.status(503).set({
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
