@@ -8,8 +8,7 @@ exports.deleteAssignmentById = async (req, res) => {
     if (Object.keys(req.body).length !== 0) {
         return res.status(400).json({ message: 'Invalid input: Request body not allowed for assignment deletion' });
     }
-    if (req.query.id) {
-        
+    if (req.query.id) {     
     }    
     try {
         // Retrieve ID from the request parameters
@@ -38,8 +37,6 @@ exports.deleteAssignmentById = async (req, res) => {
             where: { id: id }
             
         });
-        
-
         // Check if any rows were deleted
         if (deletedRowCount === 0) {
             return res.status(404).json({ message: 'Assignment not found' });

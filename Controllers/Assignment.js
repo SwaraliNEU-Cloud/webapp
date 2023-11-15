@@ -10,8 +10,7 @@ exports.createAssignment = async (req, res) => {
     const {
         name, points, num_of_attempts, deadline
     } = req.body;
-    const userId = req.user.id;
-    
+    const userId = req.user.id;    
     if (!name || !points || !num_of_attempts || !deadline) {
         logger.info('Bad Request');
         statsd.increment('endpoint.hits.v1.assignment.create');
