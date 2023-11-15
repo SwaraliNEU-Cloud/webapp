@@ -22,9 +22,6 @@ exports.deleteAssignmentById = async (req, res) => {
          if (!assignment) {
              return res.status(404).json({ message: 'Assignment not found' });
          }
-         if (Object.keys(req.body).length !== 0) {
-            return res.status(400).json({ message: 'Invalid input: Request body not allowed for assignment deletion' });
-        }
         if (req.query.id) {     
         } 
  
