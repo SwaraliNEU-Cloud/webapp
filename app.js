@@ -89,18 +89,22 @@ const metricValue = 1;
     try {
       //console.log('healthz')
       logger.info('healthz check initiated');
+      // statsd.gauge('database.connection_success', 1);
+      statsd.increment('endpoint.hits.v1.heathz.DB');
       await sequelize.authenticate(); // Check the database connectivity
       logger.info('Database connection has been established successfully.');
-   
+  
       res.status(200).set({
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
         'X-Content-Type-Options': 'nosniff'
-      });
-   
+      }).json({ status: 'ok' });
+  
     } catch (error) {
       //console.error('Unable to connect to the database:', error);
       logger.error(`Unable to connect to the database: ${error}`);
+      // statsd.gauge('database.connection_success', 1);
+      // statsd.increment('endpoint.hits.v1.heathz.DB');
       res.status(503).set({
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
