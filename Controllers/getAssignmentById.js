@@ -51,7 +51,6 @@ exports.getAssignmentById = async (req, res) => {
                 // userLName: assg.user.last_name // This will have the associated user details
             }
         };
-
         console.log(responseDetails)
 
         // Return the structured response
