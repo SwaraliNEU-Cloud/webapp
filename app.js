@@ -110,7 +110,7 @@ const metricValue = 1;
     if (req.query.id) {
       logger.info('Assignment updated ${req.query.id}');
       statsd.increment('putapi');
-      statsd.increment('endpoint.hits.v1.assignment.all');
+      statsd.increment('endpoint.hits.v1.assignment.put');
   }
   });
   app.patch('/v1/assignment', (req, res) => {
@@ -128,7 +128,7 @@ const metricValue = 1;
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
         'X-Content-Type-Options': 'nosniff'
-      }).json({ status: 'ok' });
+      });
    
     } catch (error) {
       //console.error('Unable to connect to the database:', error);
