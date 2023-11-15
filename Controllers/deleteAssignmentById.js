@@ -5,11 +5,7 @@ const statsd = require('../util/Statsclient');
 exports.deleteAssignmentById = async (req, res) => {
     // statsd.increment('endpoint.hits.v1.assignment.delete'); 
 
-    if (Object.keys(req.body).length !== 0) {
-        return res.status(400).json({ message: 'Invalid input: Request body not allowed for assignment deletion' });
-    }
-    if (req.query.id) {     
-    }    
+       
     try {
         // Retrieve ID from the request parameters
         const { id } = req.query;
@@ -26,6 +22,11 @@ exports.deleteAssignmentById = async (req, res) => {
          if (!assignment) {
              return res.status(404).json({ message: 'Assignment not found' });
          }
+         if (Object.keys(req.body).length !== 0) {
+            return res.status(400).json({ message: 'Invalid input: Request body not allowed for assignment deletion' });
+        }
+        if (req.query.id) {     
+        } 
  
          // Check if user is authorized to delete the assignment
          if (assignment.userId !== userId) {
