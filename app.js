@@ -52,21 +52,23 @@ const metricValue = 1;
   app.post('/v1/assignment', basicAuth, createAssignment);
 
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
-    if (req.query.id) {
+   
         console.log('by Id')
-        logger.info(`Fetching assignment by ID: ${req.query.id}`);
+        logger.info(`Fetching assignment`);
         statsd.increment('endpoint.hits.v1.assignment.byId');
-        return getAssignmentById(req, res, next);
-    }
+        
+        return getAllAssignments(req, res, next);
+    })
+    app.get('/v1/assignment/:id', basicAuth, (req, res, next) => {
     logger.info('Fetching all assignments');
     statsd.increment('getapi');
-    statsd.increment('endpoint.hits.v1.assignment.all');  
-    return getAllAssignments(req, res, next);
+    statsd.increment('endpoint.hits.v1.assignment.all'); 
+    return getAssignmentById(req, res, next);
   });
   
   //Below API delete all the assignment
-  app.delete('/v1/assignment', basicAuth, deleteAssignmentById, (req, res, next) => {
-    if (req.query.id) {
+  app.delete('/v1/assignment/:id', basicAuth, deleteAssignmentById, (req, res, next) => {
+    if (req.params.id) {
         logger.info('Assignment deleted ${req.query.id}');
         statsd.increment('deleteapi');
         statsd.increment('endpoint.hits.v1.assignment.all');

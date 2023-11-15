@@ -4,7 +4,10 @@ const User = require('../Models/Users');  // Using the model file you've shared
 
 exports.getAssignmentById = async (req, res) => {
     try {
-        const { id } = req.query;
+        if (req.body && Object.keys(req.body).length > 0) {
+            return res.status(400).json({ message: 'Request body is not allowed in GET request' });
+        }
+        const id  = req.params.id;
         const userId = req.user.id;
         console.log(id)
     

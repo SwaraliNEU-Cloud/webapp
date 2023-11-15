@@ -7,8 +7,11 @@ exports.deleteAssignmentById = async (req, res) => {
 
        
     try {
+        if (Object.keys(req.body).length !== 0) {
+            return res.status(400).json({ message: 'Invalid input: Request body not allowed for assignment deletion' });
+        }
         // Retrieve ID from the request parameters
-        const { id } = req.query;
+        const id  = req.params.id;
 
          // Assuming req.user.id holds the authenticated user's ID
          const userId = req.user.id;
