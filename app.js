@@ -40,38 +40,6 @@ const namespace = 'MY_CUSTOM_SPACE';
 const metricName = 'custome_api_metric';
 const metricValue = 1;
 
-//const AWS = require("aws-sdk");
-// const statsd = require('./util/Statsclient');
-// const statsd = new StatsD(statsdConfig);
-// const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
-
-// Define the metric namespace, metric name, and dimensions
-// const params = {
-//   MetricData: [
-//     {
-//       MetricName: "APICalls",
-//       Dimensions: [
-//         {
-//           Name: "APIName",
-//           Value: "GET",
-//         },
-//       ],
-//       Unit: "Count",
-//       Value: 1, // Increase this value for each API call
-//     },
-//   ],
-//   Namespace: "CustomMetrics", // Namespace for your custom metrics
-// };
-
-// // Publish the custom metric
-// cloudwatch.putMetricData(params, (err, data) => {
-//   if (err) {
-//     console.error("Error publishing metric: ", err);
-//   } else {
-//     console.log("Custom metric published successfully.");
-//   }
-// });
-
 // Sync the Sequelize model with the database and start the server
   app.use(bodyParser.json()); 
   app.use((err, req, res, next) => {
@@ -110,7 +78,7 @@ const metricValue = 1;
     if (req.query.id) {
       logger.info('Assignment updated ${req.query.id}');
       statsd.increment('putapi');
-      statsd.increment('endpoint.hits.v1.assignment.all');
+      statsd.increment('endpoint.hits.v1.assignment.put');
   }
   });
   app.patch('/v1/assignment', (req, res) => {
@@ -121,18 +89,22 @@ const metricValue = 1;
     try {
       //console.log('healthz')
       logger.info('healthz check initiated');
+      // statsd.gauge('database.connection_success', 1);
+      statsd.increment('endpoint.hits.v1.heathz.DB');
       await sequelize.authenticate(); // Check the database connectivity
       logger.info('Database connection has been established successfully.');
-   
+  
       res.status(200).set({
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
         'X-Content-Type-Options': 'nosniff'
       }).json({ status: 'ok' });
-   
+  
     } catch (error) {
       //console.error('Unable to connect to the database:', error);
       logger.error(`Unable to connect to the database: ${error}`);
+      // statsd.gauge('database.connection_success', 1);
+      // statsd.increment('endpoint.hits.v1.heathz.DB');
       res.status(503).set({
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',

@@ -4,9 +4,8 @@ const statsd = require('../util/Statsclient');
 
 exports.deleteAssignmentById = async (req, res) => {
     // statsd.increment('endpoint.hits.v1.assignment.delete'); 
-    if (req.query.id) {
-        
-    }    
+
+       
     try {
         // Retrieve ID from the request parameters
         const { id } = req.query;
@@ -23,6 +22,8 @@ exports.deleteAssignmentById = async (req, res) => {
          if (!assignment) {
              return res.status(404).json({ message: 'Assignment not found' });
          }
+        if (req.query.id) {     
+        } 
  
          // Check if user is authorized to delete the assignment
          if (assignment.userId !== userId) {
@@ -34,14 +35,12 @@ exports.deleteAssignmentById = async (req, res) => {
             where: { id: id }
             
         });
-        
-
         // Check if any rows were deleted
         if (deletedRowCount === 0) {
             return res.status(404).json({ message: 'Assignment not found' });
         }
         logger.info('Assignment deleted ${req.query.id}');
-        statsd.increment('endpoint.hits.v1.assignment.create');
+        statsd.increment('endpoint.hits.v1.assignment.delete');
         // res.status(200).json({ message: 'Assignment deleted successfully' });
         res.status(204).send();
     } catch (error) {

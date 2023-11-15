@@ -8,11 +8,9 @@ exports.updateAssignmentById = async (req, res) => {
         // Extracting the ID from the request parameters
         const { id } = req.query;
         const userId = req.user.id;
-
         // Validating the request body
         const { name, points, num_of_attempts, deadline } = req.body;
         console.log(deadline)
-
         if (!name && !points && !num_of_attempts && !deadline) {
             return res.status(400).json({ message: 'No fields to update were provided' });
         }
@@ -35,7 +33,7 @@ exports.updateAssignmentById = async (req, res) => {
 
         await assignment.save();
         logger.info('Assignment updated successfully');
-        statsd.increment('endpoint.hits.v1.assignment.create');
+        statsd.increment('endpoint.hits.v1.assignment.update');
         res.status(204).send();   
     } catch (error) {
         logger.info('Server error');

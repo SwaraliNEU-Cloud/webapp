@@ -10,13 +10,13 @@ exports.createAssignment = async (req, res) => {
     const {
         name, points, num_of_attempts, deadline
     } = req.body;
-    const userId = req.user.id;
-    
+    const userId = req.user.id;    
     if (!name || !points || !num_of_attempts || !deadline) {
         logger.info('Bad Request');
         statsd.increment('endpoint.hits.v1.assignment.create');
         return res.status(400).json({ message: 'Invalid input: All fields are required' });
     }
+    
         if (!req.user || !req.user.id) {
             logger.info('Unathorized');
             statsd.increment('endpoint.hits.v1.assignment.create');
