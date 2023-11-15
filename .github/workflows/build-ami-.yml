@@ -21,7 +21,10 @@ jobs:
         run: |
           npm install
           npm install winston
-          
+          npm install node-statsd
+          npm install hot-shots
+
+
 
 
       - name: Display .env file

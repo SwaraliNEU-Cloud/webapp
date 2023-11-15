@@ -63,14 +63,24 @@ build {
       "npm install winston", # for logging
       "npm install node-statsd",
       "sudo apt-get install acl",
-      "sudo adduser ec2-user",
-      "sudo usermod -aG ec2-user ec2-user",
+      "yes | sudo adduser ec2-user",
+      "yes | echo 'ec2-user:ec2-user1234' | sudo chpasswd",
+      "yes | sudo usermod -aG ec2-user ec2-user",
       "sudo chmod +x /home/admin/server.js",
       "sudo setfacl -Rm u:ec2-user:rwx /home/admin",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
-      "sudo wget -O /home/admin/amazon-cloudwatch-agent.deb https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb",
-      "sudo dpkg -i /home/admin/amazon-cloudwatch-agent.deb",
-      "sudo mv /home/admin/config/config.json /opt/aws/amazon-cloudwatch-agent/bin/"
+      "sudo systemctl daemon-reload",
+      "sudo systemctl enable webapp",
+      "echo 'Installing CloudWatch Agent'",
+      "sudo wget https://s3.amazonaws.com/amazoncloudwatch-agent/debian/amd64/latest/amazon-cloudwatch-agent.deb",
+      "sudo dpkg -i -E ./amazon-cloudwatch-agent.deb",
+      "echo 'CloudWatch Agent Installed'",
+      "sudo mv /home/admin/config/config.json /opt/aws/amazon-cloudwatch-agent/bin/",
+      "sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s",
+      "sudo systemctl enable amazon-cloudwatch-agent",
+      "sudo systemctl start amazon-cloudwatch-agent",
+      "sudo chown -R ec2-user:ec2-user /home/admin/*",
+      "sudo chmod -R 750 /home/admin/*"
     ]
   }
   provisioner "shell" {
@@ -87,4 +97,4 @@ build {
 // "sudo chmod -R ec2-user+rwX /home/admin",
 //"echo 'ec2-user:ec2User' | sudo chpasswd",
 // "npm install -g node-statsd statsd-cloudwatch-backend",
-      // "node-statsd /home/admin/util/statsd-config.js",
+
