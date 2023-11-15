@@ -16,6 +16,11 @@ exports.createAssignment = async (req, res) => {
         statsd.increment('endpoint.hits.v1.assignment.create');
         return res.status(400).json({ message: 'Invalid input: All fields are required' });
     }
+    if (!Number.isInteger(points) || points < 0) {
+        logger.info('Bad Request: Points must be a non-negative integer');
+        statsd.increment('endpoint.hits.v1.assignment.create');
+        return res.status(400).json({ message: 'Invalid input: Points must be a non-negative integer' });
+    }
     
         if (!req.user || !req.user.id) {
             logger.info('Unathorized');
