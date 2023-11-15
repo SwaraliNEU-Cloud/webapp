@@ -1,6 +1,12 @@
 const Assignment = require('../Models/Assignment');
+const logger = require('../Models/logHelper');
+const statsd = require('../util/Statsclient');
 
 exports.deleteAssignmentById = async (req, res) => {
+    // statsd.increment('endpoint.hits.v1.assignment.delete'); 
+    if (req.query.id) {
+        
+    }    
     try {
         // Retrieve ID from the request parameters
         const { id } = req.query;
@@ -26,13 +32,16 @@ exports.deleteAssignmentById = async (req, res) => {
         // Attempt to delete the assignment with the given ID
         const deletedRowCount = await Assignment.destroy({
             where: { id: id }
+            
         });
+        
 
         // Check if any rows were deleted
         if (deletedRowCount === 0) {
             return res.status(404).json({ message: 'Assignment not found' });
         }
-
+        logger.info('Assignment deleted ${req.query.id}');
+        statsd.increment('endpoint.hits.v1.assignment.create');
         // res.status(200).json({ message: 'Assignment deleted successfully' });
         res.status(204).send();
     } catch (error) {

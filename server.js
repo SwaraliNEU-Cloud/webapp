@@ -13,9 +13,10 @@ const Users = require('./Models/Users');
 const sequelize = require('./Models/db');
 const loadUsersFromCSV = require('./util/dataloader');
 const processUsers = require('./util/dataprocessor');
+const logger = require('./Models/logHelper');
 const PORT = 8080;
 
-
+logger.info("Web App is started..")
 Users.hasMany(Assignment, { foreignKey: 'userId', as: 'assignments' });
 
 Assignment.belongsTo(Users, { foreignKey: 'userId', as: 'user' });
@@ -29,10 +30,6 @@ sequelize.sync()
             console.log(`Server started on http://localhost:${PORT}`);
         });
     })
-
-    
-
-    
     .catch(err => {
         console.error("Error:", err);
     });

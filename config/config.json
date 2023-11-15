@@ -1,28 +1,52 @@
 {
-    "development": {
-      "username": "root",
-      "password": "Sp@17111997",
-      "database": "swaradb",
-      "host": "localhost", 
-      "dialect": "mysql",
-      "operatorsAliases": false
+  "metrics": {
+    "append_dimensions": {
+      "AutoScalingGroupName": "${aws:AutoScalingGroupName}",
+      "ImageId": "${aws:ImageId}",
+      "InstanceId": "${aws:InstanceId}",
+      "InstanceType": "${aws:InstanceType}"
     },
-    "test": {
-      "username": "root",
-      "password": "Sp@17111997",
-      "database": "swaradb",
-      "host": "localhost", 
-      "dialect": "mysql",
-      "operatorsAliases": false
-    },
-    "production": {
-      "username": "root",
-      "password": "Sp@17111997",
-      "database": "swaradb",
-      "host": "localhost", 
-      "dialect": "mysql",
-      "operatorsAliases": false
+    "force_flush_interval": 5,
+    "metrics_collected": {
+      "disk": {
+        "measurement": [
+          "used_percent"
+        ],
+        "metrics_collection_interval": 60
+      },
+      "mem": {
+        "measurement": [
+          "mem_used_percent"
+        ],
+        "metrics_collection_interval": 60
+      },
+      "statsd": {
+        "metrics_aggregation_interval": 60,
+        "metrics_collection_interval": 10,
+        "service_address": ":8125"
+      }
+      
+      
+        
       
     }
+  },
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/var/log/alternatives.log",
+            "log_group_name": "alternative",
+            "log_stream_name": "{instance_id}"
+          },
+          {
+            "file_path": "/home/admin/application.log",
+            "log_group_name": "webapplogs",
+            "log_stream_name": "webapp"
+          }
+        ]
+      }
+    }
   }
-  
+}

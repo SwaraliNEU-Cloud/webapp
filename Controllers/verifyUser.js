@@ -28,14 +28,12 @@ const verifyUser = async (req, res) => {
                 // Password is invalid, return unauthorized response
                 return res.status(401).json({ message: 'Incorrect password' });
             }
-        }else{
-            
+        }else{            
             // Hash the password using bcrypt
             const saltRounds = 10;
             const hashedPassword = await bcrypt.hash(password, saltRounds);
             console.log("In else bloack")
-            console.log(req.body)
-   
+            console.log(req.body)  
            // If not, append to user.csv
            const csvLine = `"${first_name}","${last_name}","${email}","${hashedPassword}"\n`;
            await fs.appendFile(path.join(__dirname, '../opt/user.csv'), csvLine);
@@ -47,14 +45,10 @@ const verifyUser = async (req, res) => {
                email,
                password
            });
-   
            return res.status(201).json({ message: 'User created' });
-
-        }
-       
+        }   
     } catch (error) {
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
-
 module.exports = verifyUser;

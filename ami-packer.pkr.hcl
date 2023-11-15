@@ -56,17 +56,30 @@ build {
   }
   provisioner "shell" {
     inline = [
-      "sudo apt-get install unzip", # Making sure unzip is installed
+      "sudo apt-get install unzip -y",
       "cd /home/admin",
-      "unzip webapp.zip", # Unzip the webapp.zip
-      "npm install",      # Install dependencies
-      "sudo adduser ec2-user",
-      # "echo 'ec2-user:ec2User' | sudo chpasswd",
-      "sudo usermod -aG ec2-user ec2-user",
+      "unzip webapp.zip",
+      "npm install",
+      "sudo apt-get install acl",
+      "yes | sudo adduser ec2-user",
+      "yes | echo 'ec2-user:ec2-user1234' | sudo chpasswd",
+      "yes | sudo usermod -aG ec2-user ec2-user",
       "sudo chmod +x /home/admin/server.js",
+      "sudo setfacl -Rm u:ec2-user:rwx /home/admin",
       "sudo mv /home/admin/webapp.service /etc/systemd/system/",
+      "sudo systemctl daemon-reload",
+      "sudo systemctl enable webapp",
+      "echo 'Installing CloudWatch Agent'",
+      "sudo wget https://s3.amazonaws.com/amazoncloudwatch-agent/debian/amd64/latest/amazon-cloudwatch-agent.deb",
+      "sudo dpkg -i -E ./amazon-cloudwatch-agent.deb",
+      "echo 'CloudWatch Agent Installed'",
+      "sudo mv /home/admin/config/config.json /opt/aws/amazon-cloudwatch-agent/bin/",
+      "sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s",
+      "sudo systemctl enable amazon-cloudwatch-agent",
+      "sudo systemctl start amazon-cloudwatch-agent",
+      "sudo chown -R ec2-user:ec2-user /home/admin/*",
+      "sudo chmod -R 750 /home/admin/*"
     ]
-
   }
   provisioner "shell" {
     inline = [
@@ -75,3 +88,11 @@ build {
     ]
   }
 }
+
+// "sudo chown ec2-user:ec2-user /home/admin/amazon-cloudwatch-agent.deb",
+// "sudo chmod 644 /home/admin/amazon-cloudwatch-agent.deb",
+// "sudo chown -R ec2-user:ec2-user /home/admin/",
+// "sudo chmod -R ec2-user+rwX /home/admin",
+//"echo 'ec2-user:ec2User' | sudo chpasswd",
+// "npm install -g node-statsd statsd-cloudwatch-backend",
+

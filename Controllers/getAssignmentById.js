@@ -14,7 +14,6 @@ exports.getAssignmentById = async (req, res) => {
         // console.log('Hello')
 
         const assg = await Assignment.findOne({where: { id }, 
-        // const assg = await Assignment1.findOne({where: { id: id,userId: userId}, 
         include: [{
                 model: User,
                 as: 'user', // This should match the alias in your associations
@@ -22,7 +21,7 @@ exports.getAssignmentById = async (req, res) => {
             }]
         })
 
-        // console.log('hello')
+        
         console.log(assg)
             
         // Check if assignment exists
@@ -41,12 +40,15 @@ exports.getAssignmentById = async (req, res) => {
                 points: assg.points,
                 numOfAttempts: assg.num_of_attempts,
                 deadline: assg.deadline,
+                // assignmentCreated: assg.assignment_created,
+                // assignmentUpdated: assg.assignment_updated,
                 assignmentCreated: assg.assignment_created,
                 assignmentUpdated: assg.assignment_updated,
                 userId: assg.userId,
-                useremail: assg.user.email,
-                userFName: assg.user.first_name,
-                userLName: assg.user.last_name // This will have the associated user details
+                // userId: assg.userId,
+                // useremail: assg.user.email,
+                // userFName: assg.user.first_name,
+                // userLName: assg.user.last_name // This will have the associated user details
             }
         };
 

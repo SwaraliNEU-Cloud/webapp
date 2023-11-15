@@ -1,6 +1,9 @@
 const Assignment = require('../Models/Assignment');
+const logger = require('../Models/logHelper');
+const statsd = require('../util/Statsclient');
 
 exports.updateAssignmentById = async (req, res) => {
+    // statsd.increment('endpoint.hits.v1.assignment.update'); 
     try {
         // Extracting the ID from the request parameters
         const { id } = req.query;
@@ -13,20 +16,17 @@ exports.updateAssignmentById = async (req, res) => {
         if (!name && !points && !num_of_attempts && !deadline) {
             return res.status(400).json({ message: 'No fields to update were provided' });
         }
-
         console.log(id)
-
         // Finding the assignment to update
         const assignment = await Assignment.findOne({ where: { id } });
-
         if (!assignment) {
+            logger.info('Assignment not found');
             return res.status(404).json({ message: 'Assignment not found' });
         }
-
         if (assignment.userId !== userId) {
+            logger.info('Permission denied');
             return res.status(403).json({ message: 'Forbidden: You do not have permission to update this assignment' });
         }
-
         // Updating the assignment
         if (name) assignment.name = name;
         if (points) assignment.points = points;
@@ -34,11 +34,11 @@ exports.updateAssignmentById = async (req, res) => {
         if (deadline) assignment.deadline = deadline;
 
         await assignment.save();
-
-        res.status(204).send();
-
-     
+        logger.info('Assignment updated successfully');
+        statsd.increment('endpoint.hits.v1.assignment.create');
+        res.status(204).send();   
     } catch (error) {
+        logger.info('Server error');
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
