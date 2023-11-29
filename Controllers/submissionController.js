@@ -1,13 +1,14 @@
 // Controller/submissionController.js
 
-const Submission  = require('../Models/submission.js'); // assuming Submission model is also exported from the models directory
-const Assignment = require('../Models/Assignment'); 
-const awsSnsPublisher = require('../Services/awsSnsPublisher'); // This should be the module that handles SNS publishing
+const Submission = require('../Models/submission.js');
+const Assignment = require('../Models/Assignment');
+const awsSnsPublisher = require('../Services/awsSnsPublisher');
+const logger = require('../Models/logHelper');
 require('dotenv').config();
 
 exports.createSubmission = async (req, res, next) => {
   const { id } = req.params; // Assignment ID from URL
-  const { submission_url } = req.body; // URL from the request body
+  const { submission_url, user_email } = req.body; // URL and user email from the request body
 
   try {
     console.log(id);
@@ -28,24 +29,29 @@ exports.createSubmission = async (req, res, next) => {
     const newSubmission = await Submission.create({
       assignment_id: id,
       submission_url: submission_url,
+      user_email: user_email, // Save the user email in the submission record
     });
 
-    // Inside your controller function, change the publish call to this:
+    // Log information for debugging
+    logger.info(`Type of id: ${typeof id}`); // Should be 'string'
+    logger.info(`Type of submission_url: ${typeof submission_url}`); // Should be 'string'
+    logger.info(`Type of user_email: ${typeof user_email}`); // Should be 'string'
+    logger.info(`Constructed message: ${`New submission for assignment-${id}#${submission_url} by ${user_email}`}`);
 
-    console.log(`Type of id: ${typeof id}`); // Should be 'string'
-    console.log(`Type of submission_url: ${typeof submission_url}`); // Should be 'string'
-    console.log(`Constructed message: ${`New submission for assignment ${id}: ${submission_url}`}`); 
+    const TopicArn = process.env.SNS_ARN;
 
-    // const TopicArn = 'arn:aws:sns:us-east-1:143282580221:mySnsTopic-0fb69e4'
-    const TopicArn = process.env.SNS_ARN
+    const snsBody = {
+      a_id: id,
+      a_submission_url: submission_url,
+      user_email: user_email, // Include user email in the SNS message
+    };
 
     // Correctly pass individual parameters, not an object
     await awsSnsPublisher.publish(
-    `New submission for assignment ${id}: ${submission_url}`,
-    'New Assignment Submission',
-    TopicArn // Make sure TopicArn is defined
+      JSON.stringify(snsBody, null, 2),
+      'New Assignment Submission',
+      TopicArn // Make sure TopicArn is defined
     );
-
 
     return res.status(201).json(newSubmission);
   } catch (error) {
