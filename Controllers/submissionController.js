@@ -36,15 +36,15 @@ exports.createSubmission = async (req, res, next) => {
     console.log(`Type of submission_url: ${typeof submission_url}`); // Should be 'string'
     console.log(`Constructed message: ${`New submission for assignment ${id}: ${submission_url}`}`); 
 
-    // const TopicArn = 'arn:aws:sns:us-east-1:372558015288:mySnsTopic-deba7d7'
+    // const TopicArn = 'arn:aws:sns:us-east-1:143282580221:mySnsTopic-0fb69e4'
     const TopicArn = process.env.SNS_ARN
 
     // Correctly pass individual parameters, not an object
-    // await awsSnsPublisher.publish(
-    // `New submission for assignment ${id}: ${submission_url}`,
-    // 'New Assignment Submission',
-    // TopicArn // Make sure TopicArn is defined
-    // );
+    await awsSnsPublisher.publish(
+    `New submission for assignment ${id}: ${submission_url}`,
+    'New Assignment Submission',
+    TopicArn // Make sure TopicArn is defined
+    );
 
 
     return res.status(201).json(newSubmission);
