@@ -17,25 +17,9 @@ const statsd = require('./util/Statsclient');
 const app = express();
 const PORT = 8080;
 const AWS = require("aws-sdk");
+const { createSubmission } = require('./Controllers/submissionController')
 // const StatsD = require('hot-shots');
 const cloudwatch = new AWS.CloudWatch({ region: "us-east-1" });
-// Define the metric namespace, metric name, and dimensions
-// const params = {
-//   MetricData: [
-//     {
-//       MetricName: "APICalls",
-//       Dimensions: [
-//         {
-//           Name: "APIName",
-//           Value: "GET",
-//         },
-//       ],
-//       Unit: "Count",
-//       Value: 1, // Increase this value for each API call
-//     },
-//   ],
-//   Namespace: "CustomMetrics", // Namespace for your custom metrics
-// };
 const namespace = 'MY_CUSTOM_SPACE';
 const metricName = 'custome_api_metric';
 const metricValue = 1;
@@ -76,8 +60,8 @@ const metricValue = 1;
   });
    
   //Below API update the assignment
-  app.put('/v1/assignment', basicAuth, updateAssignmentById, (req, res, next) => {
-    if (req.query.id) {
+  app.put('/v1/assignment/:id', basicAuth, updateAssignmentById, (req, res, next) => {
+    if (req.params.id) {
       logger.info('Assignment updated ${req.query.id}');
       statsd.increment('putapi');
       statsd.increment('endpoint.hits.v1.assignment.put');
@@ -87,6 +71,8 @@ const metricValue = 1;
     res.status(405).json({ error: 'Method Not Allowed: Use PUT for full updates or specify fields to update with PATCH.' });
     logger.info('PATCH method is not allowed');
   });
+
+  // app.use('/v1/assignment/:id', submissionRoutes);
   app.get('/healthz', async (req, res) => {
     try {
       //console.log('healthz')
@@ -114,4 +100,8 @@ const metricValue = 1;
       }).json({ status: 'error', message: 'Unable to connect to the database' });
     }
   });
+
+
+  // New POST route for submissions
+app.post('/v1/assignment/:id/submission', basicAuth, createSubmission);
   module.exports = app;
