@@ -6,7 +6,7 @@ exports.updateAssignmentById = async (req, res) => {
     // statsd.increment('endpoint.hits.v1.assignment.update'); 
     try {
         // Extracting the ID from the request parameters
-        const { id } = req.query;
+        const id = req.params.id;
         const userId = req.user.id;
         // Validating the request body
         const { name, points, num_of_attempts, deadline } = req.body;
