@@ -69,6 +69,7 @@ exports.createSubmission = async (req, res, next) => {
     const snsBody = {
       a_id: id,
       a_submission_url: submission_url,
+
       user_email: userId, // Include user email in the SNS message
     };
 
