@@ -1,7 +1,7 @@
 variable "aws_profile" {
   type    = string
   default = "aws_cli_dev"
-  
+}
 variable "region" {
   type    = string
   default = "us-east-1"
