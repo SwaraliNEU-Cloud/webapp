@@ -13,7 +13,6 @@ exports.getAssignmentById = async (req, res) => {
         const attributes = Assignment.rawAttributes;
         const fields = Object.keys(attributes);
         console.log(fields);
-        // console.log('Hello')
 
         const assg = await Assignment.findOne({where: { id }, 
         include: [{

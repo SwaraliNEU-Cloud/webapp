@@ -26,7 +26,6 @@ exports.createSubmission = async (req, res, next) => {
     logger.info('Submission_url is not a valid zip');
     return res.status(400).json({ message: 'Submission_url is not a valid zip' });
   }
-
   // Check if there are no additional parameters in the request body
   const validKeys = ['submission_url'];
   const additionalKeys = Object.keys(req.body).filter(key => !validKeys.includes(key));
@@ -35,7 +34,6 @@ exports.createSubmission = async (req, res, next) => {
     logger.info('Invalid parameters in request body');
     return res.status(400).json({ message: 'Invalid parameters in request body. Only submission_url is allowed.' });
   }
-
   try {
     console.log(id);
     const assignment = await Assignment.findByPk(id);
