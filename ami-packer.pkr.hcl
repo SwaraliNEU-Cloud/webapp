@@ -87,6 +87,10 @@ build {
       "sudo rm -rf /var/lib/apt/lists/*"
     ]
   }
+  post-processor "manifest" {
+    output     = "manifest.json"
+    strip_path = true
+  }
 }
 
 // "sudo chown ec2-user:ec2-user /home/admin/amazon-cloudwatch-agent.deb",
