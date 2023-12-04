@@ -74,7 +74,7 @@ jobs:
 
         run: |
           echo "Using AMI ID: $AMI_ID" # For debugging: this line will output the AMI ID in the logs
-          LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --query "LaunchTemplates[?LaunchTemplateName=='app-launch-template'].LaunchTemplateId" --output text)
+          LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --query "LaunchTemplates[?LaunchTemplateName=='Applaunch'].LaunchTemplateId" --output text)
           echo "Using Launch Template ID: $LAUNCH_TEMPLATE_ID" # For debugging
           aws ec2 create-launch-template-version --launch-template-id "$LAUNCH_TEMPLATE_ID" --source-version "$LATEST" --launch-template-data "{\"ImageId\":\"$AMI_ID\"}"
      
@@ -85,20 +85,20 @@ jobs:
  
       - name: Retrieve latest Launch Template version
         run: |
-          LAUNCH_TEMPLATE_NAME="app-launch-template"
+          LAUNCH_TEMPLATE_NAME="Applaunch"
           LATEST_VERSION=$(aws ec2 describe-launch-template-versions --launch-template-name "$LAUNCH_TEMPLATE_NAME" --query 'LaunchTemplateVersions | sort_by(@, &VersionNumber) | [-1].VersionNumber' --output text)
           echo "Latest Launch Template Version: $LATEST_VERSION"
           echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
  
       - name: Update ASG to use the latest Launch Template version
         run: |
-          ASG_NAME="app-auto-scaling-group"
+          ASG_NAME="webAppAutoScaling"
           LATEST_VERSION=${{ env.LATEST_VERSION }}
           aws autoscaling update-auto-scaling-group --auto-scaling-group-name "$ASG_NAME" --launch-template "LaunchTemplateName=$LAUNCH_TEMPLATE_NAME,Version=$LATEST_VERSION"
      
       - name: Start Instance Refresh
         run: |
-          INSTANCE_REFRESH_ID=$(aws autoscaling start-instance-refresh --auto-scaling-group-name "app-auto-scaling-group" --strategy "Rolling" --query 'InstanceRefreshId' --output text)
+          INSTANCE_REFRESH_ID=$(aws autoscaling start-instance-refresh --auto-scaling-group-name "webAppAutoScaling" --strategy "Rolling" --query 'InstanceRefreshId' --output text)
  
           echo "Instance Refresh ID: $INSTANCE_REFRESH_ID"
           echo "INSTANCE_REFRESH_ID=$INSTANCE_REFRESH_ID" >> $GITHUB_ENV
@@ -106,7 +106,7 @@ jobs:
       - name: Wait for Instance Refresh Completion
         run: |
           while true; do
-              STATUS=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name "app-auto-scaling-group" --instance-refresh-ids "${{ env.INSTANCE_REFRESH_ID }}" --query 'InstanceRefreshes[0].Status' --output text)
+              STATUS=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name "webAppAutoScaling" --instance-refresh-ids "${{ env.INSTANCE_REFRESH_ID }}" --query 'InstanceRefreshes[0].Status' --output text)
  
               if [ "$STATUS" = "Successful" ]; then
                   echo "Instance refresh completed successfully"
