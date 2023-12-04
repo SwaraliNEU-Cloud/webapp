@@ -1,7 +1,7 @@
 variable "aws_profile" {
   type    = string
   default = "aws_cli_dev"
-}
+  
 variable "region" {
   type    = string
   default = "us-east-1"
@@ -87,10 +87,10 @@ build {
       "sudo rm -rf /var/lib/apt/lists/*"
     ]
   }
-  post-processor "manifest" {
-    output     = "manifest.json"
-    strip_path = true
-  }
+  // post-processor "manifest" {
+  //   output     = "manifest.json"
+  //   strip_path = true
+  // }
 }
 
 // "sudo chown ec2-user:ec2-user /home/admin/amazon-cloudwatch-agent.deb",
