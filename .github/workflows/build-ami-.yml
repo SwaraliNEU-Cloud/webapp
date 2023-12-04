@@ -70,7 +70,8 @@ jobs:
           echo "AMI_ID=${ami_id}" >> $GITHUB_ENV
         working-directory: .
 
-       - name: Update Launch Template with Latest AMI
+      - name: Update Launch Template with Latest AMI
+
         run: |
           echo "Using AMI ID: $AMI_ID" # For debugging: this line will output the AMI ID in the logs
           LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --query "LaunchTemplates[?LaunchTemplateName=='app-launch-template'].LaunchTemplateId" --output text)
