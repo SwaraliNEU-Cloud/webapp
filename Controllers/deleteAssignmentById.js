@@ -12,7 +12,6 @@ exports.deleteAssignmentById = async (req, res) => {
         }
         // Retrieve ID from the request parameters
         const id  = req.params.id;
-
          // Assuming req.user.id holds the authenticated user's ID
          const userId = req.user.id;
 
