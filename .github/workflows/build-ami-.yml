@@ -70,21 +70,11 @@ jobs:
           echo "AMI_ID=${ami_id}" >> $GITHUB_ENV
         working-directory: .
 
-        # # New Steps for Updating AWS Infrastructure
-      # - name: Fetch Latest AMI ID
-      #   id: fetch-latest-ami
-      #   run: |
-      #     LATEST_AMI_ID=$(aws ec2 describe-images --owners self --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' --output text)
-      #     echo "Latest AMI ID: $LATEST_AMI_ID"
-      #     echo "LATEST_AMI_ID=$LATEST_AMI_ID" >> $GITHUB_ENV
- 
-      # - name: Update Launch Template with Latest AMI
-      #   run: |
-      #     aws ec2 create-launch-template-version --launch-template-id "lt-0abcd1234abcd1234" --source-version "$LATEST" --launch-template-data "{\"ImageId\":\"${{ env.LATEST_AMI_ID }}\"}"
-      - name: Update Launch Template with Latest AMI
+       - name: Update Launch Template with Latest AMI
         run: |
-          AMI_ID=${{ steps.packer_build.outputs.ami_id }}
+          echo "Using AMI ID: $AMI_ID" # For debugging: this line will output the AMI ID in the logs
           LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --query "LaunchTemplates[?LaunchTemplateName=='app-launch-template'].LaunchTemplateId" --output text)
+          echo "Using Launch Template ID: $LAUNCH_TEMPLATE_ID" # For debugging
           aws ec2 create-launch-template-version --launch-template-id "$LAUNCH_TEMPLATE_ID" --source-version "$LATEST" --launch-template-data "{\"ImageId\":\"$AMI_ID\"}"
      
       # - name: Update Launch Template with Latest AMI
@@ -92,10 +82,23 @@ jobs:
       #        AMI_ID=${{ steps.ami_id.outputs.ami_id }}
       #        aws ec2 create-launch-template-version --launch-template-id "lt-0abcd1234abcd1234" --source-version "$LATEST" --launch-template-data "{\"ImageId\":\"$AMI_ID\"}"
  
+      - name: Retrieve latest Launch Template version
+        run: |
+          LAUNCH_TEMPLATE_NAME="app-launch-template"
+          LATEST_VERSION=$(aws ec2 describe-launch-template-versions --launch-template-name "$LAUNCH_TEMPLATE_NAME" --query 'LaunchTemplateVersions | sort_by(@, &VersionNumber) | [-1].VersionNumber' --output text)
+          echo "Latest Launch Template Version: $LATEST_VERSION"
+          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
  
+      - name: Update ASG to use the latest Launch Template version
+        run: |
+          ASG_NAME="app-auto-scaling-group"
+          LATEST_VERSION=${{ env.LATEST_VERSION }}
+          aws autoscaling update-auto-scaling-group --auto-scaling-group-name "$ASG_NAME" --launch-template "LaunchTemplateName=$LAUNCH_TEMPLATE_NAME,Version=$LATEST_VERSION"
+     
       - name: Start Instance Refresh
         run: |
           INSTANCE_REFRESH_ID=$(aws autoscaling start-instance-refresh --auto-scaling-group-name "app-auto-scaling-group" --strategy "Rolling" --query 'InstanceRefreshId' --output text)
+ 
           echo "Instance Refresh ID: $INSTANCE_REFRESH_ID"
           echo "INSTANCE_REFRESH_ID=$INSTANCE_REFRESH_ID" >> $GITHUB_ENV
  
@@ -103,6 +106,7 @@ jobs:
         run: |
           while true; do
               STATUS=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name "app-auto-scaling-group" --instance-refresh-ids "${{ env.INSTANCE_REFRESH_ID }}" --query 'InstanceRefreshes[0].Status' --output text)
+ 
               if [ "$STATUS" = "Successful" ]; then
                   echo "Instance refresh completed successfully"
                   break
