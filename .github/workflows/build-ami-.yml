@@ -59,65 +59,51 @@ jobs:
 
       - name: Build AMI with Packer
         run: |
-          packer init .
-          packer fmt -check ami-packer.pkr.hcl
-          packer build ami-packer.pkr.hcl
+          packer init myami.pkr.hcl
+          packer fmt myami.pkr.hcl
+          packer build myami.pkr.hcl
  
-      - name: Capture AMI ID from Packer Output
-        id: capture-ami-id
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_PROD_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_PROD_SECRET_KEY }}
+          aws-region: us-east-1
+      - name: Instance Refresh automation / Continuous Delivery
         run: |
-          ami_id=$(cat packer-build-output.txt | grep 'artifact,0,id' | cut -d' ' -f2)
-          echo "AMI_ID=${ami_id}" >> $GITHUB_ENV
-        working-directory: .
-
-      - name: Update Launch Template with Latest AMI
-
-        run: |
-          echo "Using AMI ID: $AMI_ID" # For debugging: this line will output the AMI ID in the logs
-          LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --query "LaunchTemplates[?LaunchTemplateName=='Applaunch'].LaunchTemplateId" --output text)
-          echo "Using Launch Template ID: $LAUNCH_TEMPLATE_ID" # For debugging
-          aws ec2 create-launch-template-version --launch-template-id "$LAUNCH_TEMPLATE_ID" --source-version "$LATEST" --launch-template-data "{\"ImageId\":\"$AMI_ID\"}"
-     
-      # - name: Update Launch Template with Latest AMI
-      #   run: |
-      #        AMI_ID=${{ steps.ami_id.outputs.ami_id }}
-      #        aws ec2 create-launch-template-version --launch-template-id "lt-0abcd1234abcd1234" --source-version "$LATEST" --launch-template-data "{\"ImageId\":\"$AMI_ID\"}"
- 
-      - name: Retrieve latest Launch Template version
-        run: |
-          LAUNCH_TEMPLATE_NAME="Applaunch"
-          LATEST_VERSION=$(aws ec2 describe-launch-template-versions --launch-template-name "$LAUNCH_TEMPLATE_NAME" --query 'LaunchTemplateVersions | sort_by(@, &VersionNumber) | [-1].VersionNumber' --output text)
-          echo "Latest Launch Template Version: $LATEST_VERSION"
-          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
- 
-      - name: Update ASG to use the latest Launch Template version
-        run: |
-          ASG_NAME="webAppAutoScaling"
-          LATEST_VERSION=${{ env.LATEST_VERSION }}
-          aws autoscaling update-auto-scaling-group --auto-scaling-group-name "$ASG_NAME" --launch-template "LaunchTemplateName=$LAUNCH_TEMPLATE_NAME,Version=$LATEST_VERSION"
-     
-      - name: Start Instance Refresh
-        run: |
-          INSTANCE_REFRESH_ID=$(aws autoscaling start-instance-refresh --auto-scaling-group-name "webAppAutoScaling" --strategy "Rolling" --query 'InstanceRefreshId' --output text)
- 
-          echo "Instance Refresh ID: $INSTANCE_REFRESH_ID"
-          echo "INSTANCE_REFRESH_ID=$INSTANCE_REFRESH_ID" >> $GITHUB_ENV
- 
-      - name: Wait for Instance Refresh Completion
-        run: |
-          while true; do
-              STATUS=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name "webAppAutoScaling" --instance-refresh-ids "${{ env.INSTANCE_REFRESH_ID }}" --query 'InstanceRefreshes[0].Status' --output text)
- 
-              if [ "$STATUS" = "Successful" ]; then
-                  echo "Instance refresh completed successfully"
-                  break
-              elif [ "$STATUS" = "Failed" ]; then
-                  echo "Instance refresh failed"
-                  exit 1
-              else
-                  echo "Waiting for instance refresh... Current status: $STATUS"
-                  sleep 60
-              fi
+          sudo apt-get install jq
+          ASG_NAME=${{secrets.ASGNAME }}
+          LAUNCH_CONFIG=${{secrets.LaunchTemplateName }}
+          IMAGE=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d':' -f2)
+          IMAGE_ID=$(jq -n \
+          --arg img "$IMAGE" \
+          '{"ImageId": $img}')
+          aws ec2 create-launch-template-version \
+          --launch-template-name "$LAUNCH_CONFIG" \
+          --version-description updateAMI --source-version 1 \
+          --launch-template-data="$IMAGE_ID"
+          TEMPLATE_VERSION=$(aws ec2 describe-launch-template-versions --launch-template-name="$LAUNCH_CONFIG" \
+          --filters="Name=is-default-version,Values=false" \
+          --query 'sort_by(LaunchTemplateVersions, &CreateTime)[-1].[VersionNumber]' --output text)
+          aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME \
+          --launch-template LaunchTemplateName="$LAUNCH_CONFIG",Version=$TEMPLATE_VERSION
+          aws autoscaling start-instance-refresh \
+          --auto-scaling-group-name $ASG_NAME --strategy Rolling
+          printf "Instance refresh in progress"
+          while true;
+          do
+            instance_refresh_status=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name $ASG_NAME \
+            --query "InstanceRefreshes[0].Status" --output text)
+            if [ "$instance_refresh_status" = "Successful" ]; then
+              printf "\nInstance refresh successful!"
+              break
+           fi
+           if [ "$instance_refresh_status" = "Cancelling" ] || [ "$instance_refresh_status" = "Cancelled" ] || [ "$instance_refresh_status" = "Failed" ]; then
+             printf "\nInstance refresh failed!"
+            exit 1
+            fi
+            echo -ne "."
+            sleep 10
           done
 
         continue-on-error: true  # Ignore errors if the AMI ID is not found
