@@ -30,7 +30,6 @@ exports.updateAssignmentById = async (req, res) => {
         if (points) assignment.points = points;
         if (num_of_attempts) assignment.num_of_attempts = num_of_attempts;
         if (deadline) assignment.deadline = deadline;
-
         await assignment.save();
         logger.info('Assignment updated successfully');
         statsd.increment('endpoint.hits.v1.assignment.update');
