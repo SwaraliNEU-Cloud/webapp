@@ -73,7 +73,7 @@ jobs:
         run: |
           sudo apt-get install jq
           ASG_NAME=${{secrets.ASGNAME }}
-          LAUNCH_CONFIG=${{secrets.LaunchTemplateName }}
+          LAUNCH_CONFIG=${{secrets.LAUNCHTEMPLATENAME }}
           IMAGE=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d':' -f2)
           IMAGE_ID=$(jq -n \
           --arg img "$IMAGE" \
@@ -86,7 +86,7 @@ jobs:
           --filters="Name=is-default-version,Values=false" \
           --query 'sort_by(LaunchTemplateVersions, &CreateTime)[-1].[VersionNumber]' --output text)
           aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME \
-          --launch-template LaunchTemplateName="$LAUNCH_CONFIG",Version=$TEMPLATE_VERSION
+          --launch-template LAUNCHTEMPLATENAME="$LAUNCH_CONFIG",Version=$TEMPLATE_VERSION
           aws autoscaling start-instance-refresh \
           --auto-scaling-group-name $ASG_NAME --strategy Rolling
           printf "Instance refresh in progress"
