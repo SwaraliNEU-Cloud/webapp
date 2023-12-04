@@ -21,7 +21,6 @@ exports.createAssignment = async (req, res) => {
         statsd.increment('endpoint.hits.v1.assignment.create');
         return res.status(400).json({ message: 'Invalid input: Points must be a non-negative integer' });
     }
-    
         if (!req.user || !req.user.id) {
             logger.info('Unathorized');
             statsd.increment('endpoint.hits.v1.assignment.create');
