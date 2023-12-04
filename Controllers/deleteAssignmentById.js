@@ -14,7 +14,6 @@ exports.deleteAssignmentById = async (req, res) => {
         const id  = req.params.id;
          // Assuming req.user.id holds the authenticated user's ID
          const userId = req.user.id;
-
          // Retrieve the assignment to check the associated user
          const assignment = await Assignment.findOne({
              where: { id: id }
