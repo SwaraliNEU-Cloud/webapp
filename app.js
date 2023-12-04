@@ -33,7 +33,7 @@ const metricValue = 1;
 
   
   // Below API create the assignment
-  app.post('/v1/assignment', basicAuth, createAssignment);
+  app.post('/v2/assignment', basicAuth, createAssignment);
 
   app.get('/v1/assignment', basicAuth, (req, res, next) => {
    
@@ -103,5 +103,5 @@ const metricValue = 1;
 
 
   // New POST route for submissions
-app.post('/v1/assignment/:id/submission', basicAuth, createSubmission);
+app.post('/v2/assignment/:id/submission', basicAuth, createSubmission);
   module.exports = app;
