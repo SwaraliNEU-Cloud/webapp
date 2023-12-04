@@ -1,6 +1,6 @@
 variable "aws_profile" {
   type    = string
-  default = "AWS-CLI-demo"
+  default = "aws-cli-dev"
 }
 variable "region" {
   type    = string
