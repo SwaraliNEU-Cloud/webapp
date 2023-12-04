@@ -10,7 +10,6 @@ exports.getAssignmentById = async (req, res) => {
         const id  = req.params.id;
         const userId = req.user.id;
         console.log(id)
-    
         const attributes = Assignment.rawAttributes;
         const fields = Object.keys(attributes);
         console.log(fields);
