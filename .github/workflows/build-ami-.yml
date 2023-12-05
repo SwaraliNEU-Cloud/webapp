@@ -86,7 +86,7 @@ jobs:
           --filters="Name=is-default-version,Values=false" \
           --query 'sort_by(LaunchTemplateVersions, &CreateTime)[-1].[VersionNumber]' --output text)
           aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME \
-          --launch-template LAUNCHTEMPLATENAME="$LAUNCH_CONFIG",Version=$TEMPLATE_VERSION
+          --launch-template LaunchTemplateName="$LAUNCH_CONFIG",Version=$TEMPLATE_VERSION
           aws autoscaling start-instance-refresh \
           --auto-scaling-group-name $ASG_NAME --strategy Rolling
           printf "Instance refresh in progress"
