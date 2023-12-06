@@ -33,9 +33,9 @@ const metricValue = 1;
 
   
   // Below API create the assignment
-  app.post('/v1/assignment', basicAuth, createAssignment);
+  app.post('/v2/assignment', basicAuth, createAssignment);
 
-  app.get('/v1/assignment', basicAuth, (req, res, next) => {
+  app.get('/v2/assignment', basicAuth, (req, res, next) => {
    
         console.log('by Id')
         logger.info(`Fetching assignment`);
@@ -43,7 +43,7 @@ const metricValue = 1;
         
         return getAllAssignments(req, res, next);
     })
-    app.get('/v1/assignment/:id', basicAuth, (req, res, next) => {
+    app.get('/v2/assignment/:id', basicAuth, (req, res, next) => {
     logger.info('Fetching all assignments');
     statsd.increment('getapi');
     statsd.increment('endpoint.hits.v1.assignment.all'); 
@@ -51,7 +51,7 @@ const metricValue = 1;
   });
   
   //Below API delete all the assignment
-  app.delete('/v1/assignment/:id', basicAuth, deleteAssignmentById, (req, res, next) => {
+  app.delete('/v2/assignment/:id', basicAuth, deleteAssignmentById, (req, res, next) => {
     if (req.params.id) {
         logger.info('Assignment deleted ${req.query.id}');
         statsd.increment('deleteapi');
@@ -60,19 +60,19 @@ const metricValue = 1;
   });
    
   //Below API update the assignment
-  app.put('/v1/assignment/:id', basicAuth, updateAssignmentById, (req, res, next) => {
+  app.put('/v2/assignment/:id', basicAuth, updateAssignmentById, (req, res, next) => {
     if (req.params.id) {
       logger.info('Assignment updated ${req.query.id}');
       statsd.increment('putapi');
       statsd.increment('endpoint.hits.v1.assignment.put');
   }
   });
-  app.patch('/v1/assignment', (req, res) => {
+  app.patch('/v2/assignment', (req, res) => {
     res.status(405).json({ error: 'Method Not Allowed: Use PUT for full updates or specify fields to update with PATCH.' });
     logger.info('PATCH method is not allowed');
   });
 
-  // app.use('/v1/assignment/:id', submissionRoutes);
+  // app.use('/v2/assignment/:id', submissionRoutes);
   app.get('/healthz', async (req, res) => {
     try {
       //console.log('healthz')
@@ -103,5 +103,5 @@ const metricValue = 1;
 
 
   // New POST route for submissions
-app.post('/v1/assignment/:id/submission', basicAuth, createSubmission);
+app.post('/v2/assignment/:id/submission', basicAuth, createSubmission);
   module.exports = app;
