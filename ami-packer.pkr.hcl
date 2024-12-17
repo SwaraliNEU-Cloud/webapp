@@ -56,10 +56,12 @@ build {
   }
   provisioner "shell" {
     inline = [
-      "sudo apt-get install unzip -y",
+      "sudo apt-get install unzip", # Making sure unzip is installed
       "cd /home/admin",
-      "unzip webapp.zip",
-      "npm install",
+      "unzip webapp.zip", # Unzip the webapp.zip
+      "npm install",      # Install dependencies
+      "npm install winston", # for logging
+      "npm install node-statsd",
       "sudo apt-get install acl",
       "yes | sudo adduser ec2-user",
       "yes | echo 'ec2-user:ec2-user1234' | sudo chpasswd",
